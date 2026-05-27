@@ -1,0 +1,945 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanger d'Antan — Photos Restaurées | Patrimoine Visuel</title>
+    <meta name="description" content="Collection unique de photos de Tanger restaurées numériquement. Voyagez dans le temps à travers les décennies.">
+    <meta property="og:title" content="Tanger d'Antan - Photos Restaurées">
+    <meta property="og:description" content="Découvrez Tanger des années 1900 à 2000">
+    <meta property="og:image" content="https://ucfzem.github.io/tanger/og-image.jpg">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dim: #8a6e2f;
+            --black: #0a0805;
+            --dark: #110e08;
+            --dark2: #1a1508;
+            --dark3: #221c0a;
+            --cream: #f5ead0;
+            --cream-dim: #c4b08a;
+            --white: #fdf8ef;
+        }
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+        html { scroll-behavior: smooth; }
+
+
+        body {
+            background: var(--black);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+
+        /* ── GRAIN OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.35;
+        }
+
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(ellipse at 50% 60%, #2a1f08 0%, #110e06 45%, #0a0805 100%);
+            overflow: hidden;
+        }
+
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 180px;
+            background: linear-gradient(to bottom, transparent, var(--black));
+            z-index: 2;
+        }
+
+
+        .hero-ornament {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeUp 1s ease both;
+        }
+
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 400;
+            line-height: 0.9;
+            text-align: center;
+            color: var(--white);
+            letter-spacing: -0.02em;
+            animation: fadeUp 1s ease 0.2s both;
+        }
+
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--gold);
+            display: block;
+        }
+
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: 300;
+            color: var(--cream-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            animation: fadeUp 1s ease 0.4s both;
+        }
+
+
+        .gold-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 2rem auto;
+            animation: fadeUp 1s ease 0.5s both;
+        }
+
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--cream-dim);
+            text-align: center;
+            max-width: 480px;
+            line-height: 1.8;
+            padding: 0 2rem;
+            animation: fadeUp 1s ease 0.6s both;
+        }
+
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeUp 1s ease 1s both;
+        }
+
+
+        .scroll-hint span {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+        }
+
+
+        .scroll-hint .arrow {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold-dim), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 8, 5, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 1.2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+
+        .nav-links a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            color: var(--cream-dim);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+
+        .nav-links a:hover { color: var(--gold); }
+
+
+        /* ── SECTION TITLES ── */
+        .section-header {
+            text-align: center;
+            padding: 6rem 2rem 3rem;
+        }
+
+
+        .section-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            color: var(--white);
+        }
+
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+
+        /* ── GALLERY ── */
+        .gallery-section {
+            padding: 2rem 2rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .gallery-grid {
+            columns: 3;
+            column-gap: 1.2rem;
+        }
+
+
+        @media (max-width: 900px) { .gallery-grid { columns: 2; } }
+        @media (max-width: 550px) { .gallery-grid { columns: 1; } }
+
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1.2rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+
+        .gallery-item:hover::before { opacity: 1; }
+
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s ease;
+            filter: sepia(20%) contrast(1.05);
+        }
+
+
+        .gallery-item:hover img { transform: scale(1.04); }
+
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 2;
+            padding: 1.2rem 1rem 1rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+
+        .caption-year {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+
+        .caption-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--white);
+            margin-top: 0.2rem;
+        }
+
+
+        .before-after-badge {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            padding: 0.3rem 0.6rem;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+
+        /* ── LIGHTBOX ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(5, 4, 2, 0.97);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+
+        .lightbox.active { display: flex; }
+
+
+        .lightbox-inner {
+            position: relative;
+            max-width: 1000px;
+            width: 100%;
+            animation: lightboxIn 0.3s ease;
+        }
+
+
+        /* ── BEFORE/AFTER SLIDER ── */
+        .ba-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            user-select: none;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+
+        .ba-after {
+            display: block;
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            filter: sepia(20%) contrast(1.05);
+        }
+
+
+        .ba-before-wrap {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            overflow: hidden;
+            width: 50%;
+        }
+
+
+        .ba-before {
+            display: block;
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            filter: sepia(60%) contrast(0.85) brightness(0.85);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+        }
+
+
+        /* Make ba-before same dimensions as ba-after */
+        .ba-before-wrap img {
+            width: 100%;
+        }
+
+
+        .ba-divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--gold);
+            transform: translateX(-50%);
+            cursor: ew-resize;
+            z-index: 10;
+        }
+
+
+        .ba-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(201,168,76,0.5);
+            cursor: ew-resize;
+        }
+
+
+        .ba-label {
+            position: absolute;
+            bottom: 1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            background: rgba(0,0,0,0.6);
+            padding: 0.3rem 0.7rem;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+
+        .ba-label.avant { left: 1rem; }
+        .ba-label.apres { right: 1rem; }
+
+
+        .lightbox-meta {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+
+        .lightbox-year {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+
+        .lightbox-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--white);
+            margin-top: 0.3rem;
+        }
+
+
+        .lightbox-desc {
+            font-size: 0.95rem;
+            color: var(--cream-dim);
+            margin-top: 0.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+
+        .lightbox-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            font-size: 1.2rem;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+
+        .lightbox-close:hover {
+            background: rgba(201,168,76,0.1);
+        }
+
+
+        .lightbox-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+
+        .lightbox-nav button {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+
+        .lightbox-nav button:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+
+
+        /* ── SHARE SECTION ── */
+        .share-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+
+        .share-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+
+        .share-sub {
+            color: var(--cream-dim);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: #1877F2;
+            color: white;
+            padding: 0.9rem 2rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+
+        .share-btn:hover { opacity: 0.85; }
+
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(201,168,76,0.1);
+        }
+
+
+        footer .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.4em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+        }
+
+
+        footer p {
+            font-size: 0.85rem;
+            color: rgba(196,176,138,0.4);
+            margin-top: 1rem;
+        }
+
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+
+        @keyframes lightboxIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+
+        .gallery-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-ornament">Patrimoine Visuel · Maroc</div>
+    <h1 class="hero-title">
+        Tanger
+        <em>d'Antan</em>
+    </h1>
+    <p class="hero-subtitle">Photos Historiques Restaurées</p>
+    <div class="gold-line"></div>
+    <p class="hero-desc">
+        Un voyage dans le temps à travers les rues, les visages et les places
+        de la cité du Détroit — des années 1900 aux années 1980.
+    </p>
+    <div class="scroll-hint">
+        <span>Découvrir</span>
+        <div class="arrow"></div>
+    </div>
+</section>
+
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-brand">Tanger d'Antan</a>
+    <ul class="nav-links">
+        <li><a href="#galerie">Galerie</a></li>
+        <li><a href="#partager">Partager</a></li>
+    </ul>
+</nav>
+
+
+<!-- GALLERY -->
+<div class="section-header" id="galerie">
+    <span class="section-label">Collection</span>
+    <h2 class="section-title">La Galerie <em>Complète</em></h2>
+    <div class="gold-line"></div>
+</div>
+
+
+<section class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Photos générées par JS -->
+    </div>
+</section>
+
+
+<!-- SHARE -->
+<section class="share-section" id="partager">
+    <h3 class="share-title">Partagez ce patrimoine</h3>
+    <p class="share-sub">Aidez à faire connaître l'histoire de Tanger</p>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://ucfzem.github.io/tanger/" target="_blank" class="share-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Partager sur Facebook
+    </a>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="logo">Tanger d'Antan</div>
+    <p>© 2026 — Projet de préservation du patrimoine visuel de Tanger</p>
+</footer>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+        <button class="lightbox-close" id="lightboxClose">✕ Fermer</button>
+        <div class="ba-container" id="baContainer">
+            <img class="ba-after" id="baAfter" src="" alt="">
+            <div class="ba-before-wrap" id="baBeforeWrap">
+                <img class="ba-before" id="baBefore" src="" alt="">
+            </div>
+            <div class="ba-divider" id="baDivider">
+                <div class="ba-handle">⟺</div>
+            </div>
+            <span class="ba-label avant">Avant</span>
+            <span class="ba-label apres">Après</span>
+        </div>
+        <div class="lightbox-meta">
+            <div class="lightbox-year" id="lbYear"></div>
+            <div class="lightbox-title" id="lbTitle"></div>
+            <div class="lightbox-desc" id="lbDesc"></div>
+        </div>
+        <div class="lightbox-nav">
+            <button id="lbPrev">← Précédente</button>
+            <button id="lbNext">Suivante →</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+// ── PHOTO DATA (remplacer src par vos vraies images) ──
+const photos = [
+    { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg" },
+    { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg" },
+    { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg" },
+    { id:4,  year:"1940", title:"La Kasbah", desc:"Les remparts millénaires qui dominent la Méditerranée.", src:"images/kasbah-1940.jpg",             srcBefore:"images/avant/kasbah-1940.jpg" },
+    { id:5,  year:"1930", title:"Le Port", desc:"Les quais du port, porte entre l'Europe et l'Afrique.", src:"images/port-1930.jpg",               srcBefore:"images/avant/port-1930.jpg" },
+    { id:6,  year:"1955", title:"Boulevard Pasteur", desc:"L'artère principale de la ville européenne.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"images/avant/bd-pasteur-1955.jpg" },
+    { id:7,  year:"1945", title:"La Médina", desc:"Ruelles tortueuses et maisons blanches de la vieille ville.", src:"images/medina-1945.jpg",             srcBefore:"images/avant/medina-1945.jpg" },
+    { id:8,  year:"1960", title:"La Corniche", desc:"La promenade en bord de mer, élégance tangéroise.", src:"images/corniche-1960.jpg",           srcBefore:"images/avant/corniche-1960.jpg" },
+    { id:9,  year:"1935", title:"Café Hafa", desc:"Le café mythique en terrasses dominant le détroit.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"images/avant/cafe-hafa-1935.jpg" },
+    { id:10, year:"1948", title:"Rue de la Liberté", desc:"La rue commerçante au temps de la zone internationale.", src:"images/rue-liberte-1948.jpg",       srcBefore:"images/avant/rue-liberte-1948.jpg" },
+    { id:11, year:"1920", title:"Cap Spartel", desc:"Le phare légendaire à la jonction des deux mers.", src:"images/cap-spartel-1920.jpg",         srcBefore:"images/avant/cap-spartel-1920.jpg" },
+    { id:12, year:"1958", title:"La Ville Nouvelle", desc:"L'essor urbain de Tanger après l'indépendance.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"images/avant/ville-nouvelle-1958.jpg" },
+    { id:13, year:"1942", title:"Marché Central", desc:"Le marché couvert, odeurs et couleurs d'une époque.", src:"images/marche-central-1942.jpg",    srcBefore:"images/avant/marche-central-1942.jpg" },
+    { id:14, year:"1965", title:"Plage Malabata", desc:"La plage de Malabata, vacanciers et pêcheurs.", src:"images/plage-malabata-1965.jpg",      srcBefore:"images/avant/plage-malabata-1965.jpg" },
+    { id:15, year:"1933", title:"Bab Fahs", desc:"La porte d'entrée de la médina depuis les souks.", src:"images/bab-fahs-1933.jpg",             srcBefore:"images/avant/bab-fahs-1933.jpg" },
+    { id:16, year:"1970", title:"Cinéma Rif", desc:"La salle mythique du Grand Socco, temple du cinéma.", src:"images/cinema-rif-1970.jpg",          srcBefore:"images/avant/cinema-rif-1970.jpg" },
+    { id:17, year:"1928", title:"Le Marshan", desc:"Le quartier résidentiel en hauteur face au détroit.", src:"images/marshan-1928.jpg",             srcBefore:"images/avant/marshan-1928.jpg" },
+    { id:18, year:"1975", title:"La Gare", desc:"La gare de Tanger, départ vers Casablanca et Rabat.", src:"images/gare-1975.jpg",                srcBefore:"images/avant/gare-1975.jpg" },
+    { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg" },
+    { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg" },
+];
+
+
+// ── PLACEHOLDER IMAGE (gris sépia) ──
+function placeholder(text, w=600, h=450) {
+    const colors = ['#2a2015','#1e180a','#251c0d','#1a1408','#2e2210'];
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="${c}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#c9a84c55" font-family="Georgia,serif" font-size="14">${text}</text></svg>`)}`;
+}
+
+
+// ── BUILD GALLERY ──
+const grid = document.getElementById('galleryGrid');
+photos.forEach((p, i) => {
+    const heights = [280,350,300,400,260,380,320,290,370,310];
+    const h = heights[i % heights.length];
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.dataset.index = i;
+    item.innerHTML = `
+        <span class="before-after-badge">Avant / Après</span>
+        <img src="${placeholder(p.title + ' · ' + p.year, 600, h)}" 
+             alt="${p.title} Tanger ${p.year}" loading="lazy"
+             onerror="this.src='${placeholder(p.title, 600, h)}'"
+             data-real="${p.src}">
+        <div class="gallery-caption">
+            <div class="caption-year">${p.year}</div>
+            <div class="caption-title">${p.title}</div>
+        </div>
+    `;
+    item.addEventListener('click', () => openLightbox(i));
+    grid.appendChild(item);
+});
+
+
+// Try to load real images
+document.querySelectorAll('.gallery-item img[data-real]').forEach(img => {
+    const real = img.dataset.real;
+    const test = new Image();
+    test.onload = () => { img.src = real; };
+    test.src = real;
+});
+
+
+// ── INTERSECTION OBSERVER ──
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), idx * 60);
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+
+document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
+
+
+// ── LIGHTBOX ──
+let currentIndex = 0;
+
+
+function openLightbox(index) {
+    currentIndex = index;
+    const p = photos[index];
+    const lb = document.getElementById('lightbox');
+
+
+    const afterImg = document.getElementById('baAfter');
+    const beforeImg = document.getElementById('baBefore');
+    const beforeWrap = document.getElementById('baBeforeWrap');
+
+
+    afterImg.src = placeholder(p.title + ' — Restaurée', 900, 600);
+    beforeImg.src = placeholder(p.title + ' — Original', 900, 600);
+    beforeWrap.style.width = '50%';
+
+
+    // Try real images
+    const tAfter = new Image();
+    tAfter.onload = () => { afterImg.src = p.src; };
+    tAfter.src = p.src;
+
+
+    const tBefore = new Image();
+    tBefore.onload = () => { beforeImg.src = p.srcBefore; };
+    tBefore.src = p.srcBefore;
+
+
+    document.getElementById('lbYear').textContent = p.year;
+    document.getElementById('lbTitle').textContent = p.title;
+    document.getElementById('lbDesc').textContent = p.desc;
+
+
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    resetSlider();
+}
+
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+
+document.getElementById('lbPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    openLightbox(currentIndex);
+});
+
+
+document.getElementById('lbNext').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % photos.length;
+    openLightbox(currentIndex);
+});
+
+
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+});
+
+
+// ── BEFORE/AFTER SLIDER ──
+const divider = document.getElementById('baDivider');
+const beforeWrap = document.getElementById('baBeforeWrap');
+const baContainer = document.getElementById('baContainer');
+let dragging = false;
+
+
+function resetSlider() {
+    beforeWrap.style.width = '50%';
+    divider.style.left = '50%';
+}
+
+
+function setSliderPos(clientX) {
+    const rect = baContainer.getBoundingClientRect();
+    let pct = ((clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(2, Math.min(98, pct));
+    beforeWrap.style.width = pct + '%';
+    divider.style.left = pct + '%';
+}
+
+
+divider.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
+divider.addEventListener('touchstart', e => { dragging = true; }, { passive: true });
+
+
+document.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clientX); });
+document.addEventListener('touchmove', e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
+document.addEventListener('mouseup', () => { dragging = false; });
+document.addEventListener('touchend', () => { dragging = false; });
+</script>
+</body>
+</html>
