@@ -11,7 +11,24 @@
     <meta property="og:locale" content="fr_FR">
 
 
-    <script>history.scrollRestoration='manual';window.scrollTo(0,0);</script>
+    <script>
+(function(){
+  try { history.scrollRestoration='manual'; } catch(e){}
+  var h=document.documentElement;
+  function t(){
+    try {
+      var s=h.style,b=s.scrollBehavior;
+      s.scrollBehavior='auto';
+      window.scrollTo(0,0);
+      s.scrollBehavior=b;
+    } catch(e){}
+  }
+  t();
+  window.addEventListener('pageshow',t);
+  window.addEventListener('load',t);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',t);
+})();
+</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
