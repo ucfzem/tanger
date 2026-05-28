@@ -55,6 +55,12 @@
 - **GA4**: user needs to create GA4 property at https://analytics.google.com and provide real Measurement ID
 - Replace `G-XXXXXXXXXX` in tanger, quran-majeed-v3, and liens when real ID is available
 
+## How to Start a Session from Phone
+1. Open repo on GitHub mobile browser (github.com/ucfzem/tanger or other)
+2. Press **`.` (dot)** key → opens web VS Code editor
+3. Tell the AI: *"I'm ucfzem from phone, continue the tanger project"*
+4. The AI will clone the repo from GitHub with full AGENTS.md context
+
 ## Preferences & Constraints
 - All projects on GitHub Pages — ~1-2 min for changes to go live
 - Quran Majeed is a SPA with hash-based routing (individual surahs not indexable by Google)
