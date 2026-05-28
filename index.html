@@ -218,6 +218,36 @@
         .nav-links a:hover { color: var(--gold); }
 
 
+        .lang-switcher {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.2);
+            color: var(--cream-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.1em;
+            padding: 0.2rem 0.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: rgba(201,168,76,0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+
+        html[dir="rtl"] .hero-title { letter-spacing: 0; }
+        html[dir="rtl"] .hero-subtitle { letter-spacing: 0.1em; }
+        html[dir="rtl"] .nav-links a { letter-spacing: 0.05em; }
+
+
         /* ── SECTION TITLES ── */
         .section-header {
             text-align: center;
@@ -719,19 +749,19 @@
 
 <!-- HERO -->
 <section class="hero">
-    <div class="hero-ornament">Patrimoine Visuel · Maroc</div>
+    <div class="hero-ornament" data-i18n="hero_ornament">Patrimoine Visuel · Maroc</div>
     <h1 class="hero-title">
         Tanger
         <em>d'Antan</em>
     </h1>
-    <p class="hero-subtitle">Photos Historiques Restaurées</p>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Photos Historiques Restaurées</p>
     <div class="gold-line"></div>
-    <p class="hero-desc">
+    <p class="hero-desc" data-i18n="hero_desc">
         Un voyage dans le temps à travers les rues, les visages et les places
         de la cité du Détroit — des années 1900 aux années 1980.
     </p>
     <div class="scroll-hint">
-        <span>Découvrir</span>
+        <span data-i18n="scroll_hint">Découvrir</span>
         <div class="arrow"></div>
     </div>
 </section>
@@ -741,16 +771,22 @@
 <nav>
     <a href="#" class="nav-brand">Tanger d'Antan</a>
     <ul class="nav-links">
-        <li><a href="#galerie">Galerie</a></li>
-        <li><a href="#partager">Partager</a></li>
+        <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
+        <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
     </ul>
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
 </nav>
 
 
 <!-- GALLERY -->
 <div class="section-header" id="galerie">
-    <span class="section-label">Collection</span>
-    <h2 class="section-title">La Galerie <em>Complète</em></h2>
+    <span class="section-label" data-i18n="section_label">Collection</span>
+    <h2 class="section-title" data-i18n="section_title">La Galerie <em>Complète</em></h2>
     <div class="gold-line"></div>
 </div>
 
@@ -764,11 +800,11 @@
 
 <!-- SHARE -->
 <section class="share-section" id="partager">
-    <h3 class="share-title">Partagez ce patrimoine</h3>
-    <p class="share-sub">Aidez à faire connaître l'histoire de Tanger</p>
+    <h3 class="share-title" data-i18n="share_title">Partagez ce patrimoine</h3>
+    <p class="share-sub" data-i18n="share_sub">Aidez à faire connaître l'histoire de Tanger</p>
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://ucfzem.github.io/tanger/" target="_blank" class="share-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        Partager sur Facebook
+        <span data-i18n="share_btn">Partager sur Facebook</span>
     </a>
 </section>
 
@@ -776,14 +812,14 @@
 <!-- FOOTER -->
 <footer>
     <div class="logo">Tanger d'Antan</div>
-    <p>© 2026 — Projet de préservation du patrimoine visuel de Tanger</p>
+    <p data-i18n="footer_copyright">© 2026 — Projet de préservation du patrimoine visuel de Tanger</p>
 </footer>
 
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
     <div class="lightbox-inner">
-        <button class="lightbox-close" id="lightboxClose">✕ Fermer</button>
+        <button class="lightbox-close" id="lightboxClose" data-i18n="close">✕ Fermer</button>
         <div class="ba-container" id="baContainer">
             <img class="ba-after" id="baAfter" src="" alt="">
             <div class="ba-before-wrap" id="baBeforeWrap">
@@ -792,11 +828,11 @@
             <div class="ba-divider" id="baDivider">
                 <div class="ba-handle">⟺</div>
             </div>
-            <span class="ba-label avant">Avant</span>
-            <span class="ba-label apres">Après</span>
+            <span class="ba-label avant" data-i18n="before_label">Avant</span>
+            <span class="ba-label apres" data-i18n="after_label">Après</span>
             <div class="mode-toggle">
-                <button class="mode-btn active" data-mode="bw">B&W</button>
-                <button class="mode-btn" data-mode="color">Colorisé</button>
+                <button class="mode-btn active" data-mode="bw" data-i18n="bw_btn">B&W</button>
+                <button class="mode-btn" data-mode="color" data-i18n="color_btn">Colorisé</button>
             </div>
         </div>
         <div class="lightbox-meta">
@@ -805,15 +841,164 @@
             <div class="lightbox-desc" id="lbDesc"></div>
         </div>
         <div class="lightbox-nav">
-            <button id="lbPrev">← Précédente</button>
-            <button id="lbNext">Suivante →</button>
+            <button id="lbPrev" data-i18n="prev">← Précédente</button>
+            <button id="lbNext" data-i18n="next">Suivante →</button>
         </div>
     </div>
 </div>
 
 
 <script>
-// ── PHOTO DATA (remplacer src par vos vraies images) ──
+// ── TRANSLATIONS ──
+const i18n = {
+    fr: {
+        hero_ornament: "Patrimoine Visuel · Maroc",
+        hero_subtitle: "Photos Historiques Restaurées",
+        hero_desc: "Un voyage dans le temps à travers les rues, les visages et les places de la cité du Détroit — des années 1900 aux années 1980.",
+        scroll_hint: "Découvrir",
+        nav_gallery: "Galerie",
+        nav_share: "Partager",
+        section_label: "Collection",
+        section_title: "La Galerie <em>Complète</em>",
+        before_label: "Avant",
+        after_label: "Après",
+        bw_btn: "B&W",
+        color_btn: "Colorisé",
+        close: "✕ Fermer",
+        prev: "← Précédente",
+        next: "Suivante →",
+        share_title: "Partagez ce patrimoine",
+        share_sub: "Aidez à faire connaître l'histoire de Tanger",
+        share_btn: "Partager sur Facebook",
+        footer_copyright: "© 2026 — Projet de préservation du patrimoine visuel de Tanger",
+        edit_hint: "✎ Mode édition — modifie le texte, Enter pour valider"
+    },
+    en: {
+        hero_ornament: "Visual Heritage · Morocco",
+        hero_subtitle: "Restored Historical Photos",
+        hero_desc: "A journey through time along the streets, faces and squares of the city of the Strait — from the 1900s to the 1980s.",
+        scroll_hint: "Discover",
+        nav_gallery: "Gallery",
+        nav_share: "Share",
+        section_label: "Collection",
+        section_title: "The <em>Complete</em> Gallery",
+        before_label: "Before",
+        after_label: "After",
+        bw_btn: "B&W",
+        color_btn: "Colorized",
+        close: "✕ Close",
+        prev: "← Previous",
+        next: "Next →",
+        share_title: "Share this heritage",
+        share_sub: "Help spread the history of Tangier",
+        share_btn: "Share on Facebook",
+        footer_copyright: "© 2026 — Tangier visual heritage preservation project",
+        edit_hint: "✎ Edit mode — click text to edit, Enter to save"
+    },
+    es: {
+        hero_ornament: "Patrimonio Visual · Marruecos",
+        hero_subtitle: "Fotos Históricas Restauradas",
+        hero_desc: "Un viaje en el tiempo por las calles, rostros y plazas de la ciudad del Estrecho — desde los años 1900 hasta los 1980.",
+        scroll_hint: "Descubrir",
+        nav_gallery: "Galería",
+        nav_share: "Compartir",
+        section_label: "Colección",
+        section_title: "La Galería <em>Completa</em>",
+        before_label: "Antes",
+        after_label: "Después",
+        bw_btn: "ByN",
+        color_btn: "Coloreado",
+        close: "✕ Cerrar",
+        prev: "← Anterior",
+        next: "Siguiente →",
+        share_title: "Comparte este patrimonio",
+        share_sub: "Ayuda a difundir la historia de Tánger",
+        share_btn: "Compartir en Facebook",
+        footer_copyright: "© 2026 — Proyecto de preservación del patrimonio visual de Tánger",
+        edit_hint: "✎ Modo edición — haz clic en el texto para editar, Enter para guardar"
+    },
+    ar: {
+        hero_ornament: "تراث بصري · المغرب",
+        hero_subtitle: "صور تاريخية مستعادة",
+        hero_desc: "رحلة عبر الزمن في شوارع ووجوه وساحات مدينة المضيق — من عام 1900 إلى 1980.",
+        scroll_hint: "اكتشف",
+        nav_gallery: "معرض",
+        nav_share: "مشاركة",
+        section_label: "مجموعة",
+        section_title: "المعرض <em>الكامل</em>",
+        before_label: "قبل",
+        after_label: "بعد",
+        bw_btn: "أبيض وأسود",
+        color_btn: "ملون",
+        close: "✕ إغلاق",
+        prev: "→ السابق",
+        next: "التالي ←",
+        share_title: "شارك هذا التراث",
+        share_sub: "ساعد في نشر تاريخ طنجة",
+        share_btn: "مشاركة على فيسبوك",
+        footer_copyright: "© 2026 — مشروع الحفاظ على التراث البصري لطنجة",
+        edit_hint: "✎ وضع التحرير — انقر على النص للتحرير، Enter للحفظ"
+    }
+};
+
+let currentLang = 'fr';
+
+
+function applyLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang] && i18n[lang][key]) {
+            el.innerHTML = i18n[lang][key];
+        }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+
+    // Update photo captions in gallery
+    if (typeof photos !== 'undefined') {
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach((item, i) => {
+            const p = photos[i];
+            if (!p) return;
+            const caps = item.querySelectorAll('.gallery-caption div');
+            if (caps[0]) caps[0].textContent = p.year;
+            if (caps[1]) caps[1].textContent = p['title_' + lang] || p.title;
+        });
+        // Update lightbox if open
+        const lb = document.getElementById('lightbox');
+        if (lb.classList.contains('active') && typeof currentIndex !== 'undefined') {
+            const p = photos[currentIndex];
+            if (p) {
+                document.getElementById('lbTitle').textContent = p['title_' + lang] || p.title;
+                document.getElementById('lbDesc').textContent = p['desc_' + lang] || p.desc;
+            }
+        }
+    }
+
+    localStorage.setItem('tanger_lang', lang);
+}
+
+
+// Load saved language
+try {
+    const saved = localStorage.getItem('tanger_lang');
+    if (saved && i18n[saved]) currentLang = saved;
+} catch(e) {}
+const urlLang = new URLSearchParams(window.location.search).get('lang');
+if (urlLang && i18n[urlLang]) currentLang = urlLang;
+
+
+// ── LANGUAGE SWITCHER ──
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+
+// ── PHOTO DATA ──
 // ── LOAD/SAVE PHOTOS (admin edits) ──
 function loadPhotos() {
     try {
@@ -869,12 +1054,13 @@ photos.forEach((p, i) => {
     item.innerHTML = `
         <span class="before-after-badge">Avant / Après</span>
         <img src="${placeholder(p.title + ' · ' + p.year, 600, h)}" 
-             alt="${p.title} Tanger ${p.year}" loading="lazy"
+             alt="${p.title} — Photo historique de Tanger ${p.year} — ${p.desc}" loading="lazy"
              onerror="this.src='${placeholder(p.title, 600, h)}'"
-             data-real="${p.src}">
+             data-real="${p.src}"
+             data-real-color="${p.srcColor}">
         <div class="gallery-caption">
             <div class="caption-year">${p.year}</div>
-            <div class="caption-title">${p.title}</div>
+            <div class="caption-title">${p['title_' + currentLang] || p.title}</div>
         </div>
     `;
     item.addEventListener('click', () => openLightbox(i));
@@ -938,8 +1124,8 @@ function openLightbox(index) {
 
 
     document.getElementById('lbYear').textContent = p.year;
-    document.getElementById('lbTitle').textContent = p.title;
-    document.getElementById('lbDesc').textContent = p.desc;
+    document.getElementById('lbTitle').textContent = p['title_' + currentLang] || p.title;
+    document.getElementById('lbDesc').textContent = p['desc_' + currentLang] || p.desc;
 
     // Enable editing if admin mode
     document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(f => f.contentEditable = adminMode);
@@ -1000,6 +1186,10 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
 });
 
 
+// Apply language
+applyLang(currentLang);
+
+
 // ── ADMIN MODE (ajouter ?edit à l'URL) ──
 const urlParams = new URLSearchParams(window.location.search);
 let adminMode = urlParams.has('edit');
@@ -1008,7 +1198,7 @@ if (adminMode) {
     const hint = document.createElement('div');
     hint.className = 'edit-hint';
     hint.id = 'editHint';
-    hint.textContent = '✎ Mode édition — modifie le texte, Enter pour valider';
+    hint.textContent = i18n[currentLang].edit_hint || '✎ Edit mode — click text to edit, Enter to save';
     document.querySelector('.lightbox-meta').appendChild(hint);
 }
 
@@ -1028,7 +1218,7 @@ document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
         if (items[currentIndex]) {
             const caps = items[currentIndex].querySelectorAll('.gallery-caption div');
             if (caps[0]) caps[0].textContent = photos[currentIndex].year;
-            if (caps[1]) caps[1].textContent = photos[currentIndex].title;
+            if (caps[1]) caps[1].textContent = photos[currentIndex]['title_' + currentLang] || photos[currentIndex].title;
         }
     });
     el.addEventListener('keydown', e => {
