@@ -56,8 +56,8 @@
 - Replace `G-XXXXXXXXXX` in tanger, quran-majeed-v3, and liens when real ID is available
 
 ## How to Start a Session from Phone
-1. Open repo on GitHub mobile browser (github.com/ucfzem/tanger or other)
-2. Press **`.` (dot)** key → opens web VS Code editor
+1. Open **github.dev/ucfzem/tanger** (or github.dev/ucfzem/quran-majeed-v3 etc.) in phone browser
+2. That opens the web VS Code editor directly
 3. Tell the AI: *"I'm ucfzem from phone, continue the tanger project"*
 4. The AI will clone the repo from GitHub with full AGENTS.md context
 
