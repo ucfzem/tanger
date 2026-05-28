@@ -13,7 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
 
     <style>
@@ -248,6 +248,16 @@
         html[dir="rtl"] .hero-title { letter-spacing: 0; }
         html[dir="rtl"] .hero-subtitle { letter-spacing: 0.1em; }
         html[dir="rtl"] .nav-links a { letter-spacing: 0.05em; }
+
+        html[lang="ar"] .hero-title { font-family: 'Amiri', serif; }
+        html[lang="ar"] .hero-title em { font-style: normal; }
+        html[lang="ar"] .hero-subtitle { font-family: 'Amiri', serif; letter-spacing: 0; }
+        html[lang="ar"] .section-title { font-family: 'Amiri', serif; }
+        html[lang="ar"] .section-title em { font-style: normal; }
+        html[lang="ar"] .nav-brand { font-family: 'Amiri', serif; letter-spacing: 0; }
+        html[lang="ar"] .nav-links a { font-family: 'Amiri', serif; letter-spacing: 0; }
+        html[lang="ar"] .caption-title { font-family: 'Amiri', serif; }
+        html[lang="ar"] .lightbox-title { font-family: 'Amiri', serif; }
 
 
         /* ── SECTION TITLES ── */
@@ -752,7 +762,7 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-ornament" data-i18n="hero_label">Patrimoine Visuel · Maroc</div>
-    <h1 class="hero-title" data-i18n="site_name">
+    <h1 class="hero-title" data-i18n="hero_title">
         Tanger
         <em>d'Antan</em>
     </h1>
@@ -855,6 +865,7 @@
 const i18n = {
     fr: {
         site_name: "Tanger d'Antan",
+        hero_title: "Tanger <em>d'Antan</em>",
         hero_label: "Patrimoine Visuel · Maroc",
         hero_subtitle: "Photos Historiques Restaurées",
         hero_desc: "Un voyage dans le temps à travers les rues, les visages et les places de la cité du Détroit — des années 1900 aux années 1980.",
@@ -878,6 +889,7 @@ const i18n = {
     },
     en: {
         site_name: "Tangier of Yesteryear",
+        hero_title: "Tangier <em>of Yesteryear</em>",
         hero_label: "Visual Heritage · Morocco",
         hero_subtitle: "Restored Historical Photos",
         hero_desc: "A journey through time along the streets, faces and squares of the city of the Strait — from the 1900s to the 1980s.",
@@ -901,6 +913,7 @@ const i18n = {
     },
     es: {
         site_name: "Tánger de Antaño",
+        hero_title: "Tánger <em>de Antaño</em>",
         hero_label: "Patrimonio Visual · Marruecos",
         hero_subtitle: "Fotos Históricas Restauradas",
         hero_desc: "Un viaje en el tiempo por las calles, rostros y plazas de la ciudad del Estrecho — desde los años 1900 hasta los 1980.",
@@ -924,6 +937,7 @@ const i18n = {
     },
     ar: {
         site_name: "طنجة الزمن الجميل",
+        hero_title: "طنجة <em>الزمن الجميل</em>",
         hero_label: "تراث بصري · المغرب",
         hero_subtitle: "صور تاريخية مستعادة",
         hero_desc: "رحلة عبر الزمن في شوارع ووجوه وساحات مدينة المضيق — من عام 1900 إلى 1980.",
