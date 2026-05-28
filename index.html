@@ -1019,18 +1019,6 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 
 
 // ── PHOTO DATA ──
-// ── LOAD/SAVE PHOTOS (admin edits) ──
-function loadPhotos() {
-    try {
-        const saved = localStorage.getItem('tanger_photos');
-        if (saved) { const p = JSON.parse(saved); if (Array.isArray(p) && p.length) return p; }
-    } catch(e) {}
-    return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
-}
-function savePhotos() { localStorage.setItem('tanger_photos', JSON.stringify(photos)); }
-let photos = loadPhotos();
-
-// Also keep DEFAULT_PHOTOS for reference
 const DEFAULT_PHOTOS = [
     { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", title_en:"Grand Socco", desc_en:"The great market square, beating heart of international Tangier.", title_es:"Gran Socco", desc_es:"La gran plaza del mercado, corazón del Tánger internacional.", title_ar:"السوق الكبير", desc_ar:"ساحة السوق الكبير، قلب طنجة الدولية النابض.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg", srcColor:"" },
     { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", title_en:"Petit Socco", desc_en:"The Petit Socco cafe, meeting place for artists and diplomats.", title_es:"Pequeño Socco", desc_es:"El café del Pequeño Socco, punto de encuentro de artistas y diplomáticos.", title_ar:"السوق الصغير", desc_ar:"مقهى السوق الصغير، ملتقى الفنانين والدبلوماسيين.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg", srcColor:"" },
@@ -1053,6 +1041,22 @@ const DEFAULT_PHOTOS = [
     { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", title_en:"Hotel Continental", desc_en:"The historic palace overlooking the port since 1888.", title_es:"Hotel Continental", desc_es:"El palacio histórico con vistas al puerto desde 1888.", title_ar:"فندق كونتيننتال", desc_ar:"القصر التاريخي المطل على الميناء منذ 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg", srcColor:"" },
     { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", title_en:"Strait of Gibraltar", desc_en:"View of the strait, Europe and Africa face to face.", title_es:"Estrecho de Gibraltar", desc_es:"Vista del estrecho, Europa y África cara a cara.", title_ar:"مضيق جبل طارق", desc_ar:"إطلالة على المضيق، أوروبا وإفريقيا وجها لوجه.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg", srcColor:"" },
 ];
+
+// ── LOAD/SAVE PHOTOS (admin edits) ──
+function loadPhotos() {
+    try {
+        const saved = localStorage.getItem('tanger_photos');
+        if (saved) {
+            const p = JSON.parse(saved);
+            if (Array.isArray(p) && p.length) {
+                return p.map((photo, i) => ({ ...DEFAULT_PHOTOS[i], ...photo }));
+            }
+        }
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
+}
+function savePhotos() { localStorage.setItem('tanger_photos', JSON.stringify(photos)); }
+let photos = loadPhotos();
 
 
 // ── PLACEHOLDER IMAGE (gris sépia) ──
