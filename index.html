@@ -751,8 +751,8 @@
 
 <!-- HERO -->
 <section class="hero">
-    <div class="hero-ornament" data-i18n="hero_ornament">Patrimoine Visuel · Maroc</div>
-    <h1 class="hero-title">
+    <div class="hero-ornament" data-i18n="hero_label">Patrimoine Visuel · Maroc</div>
+    <h1 class="hero-title" data-i18n="site_name">
         Tanger
         <em>d'Antan</em>
     </h1>
@@ -771,16 +771,16 @@
 
 <!-- NAV -->
 <nav>
-    <a href="#" class="nav-brand">Tanger d'Antan</a>
+    <a href="#" class="nav-brand" data-i18n="site_name">Tanger d'Antan</a>
     <ul class="nav-links">
         <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
         <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
     </ul>
     <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="fr">FR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-        <button class="lang-btn" data-lang="ar">AR</button>
+        <button class="lang-btn active" data-lang="fr">🇫🇷</button>
+        <button class="lang-btn" data-lang="en">🇬🇧</button>
+        <button class="lang-btn" data-lang="es">🇪🇸</button>
+        <button class="lang-btn" data-lang="ar">🇸🇦</button>
     </div>
 </nav>
 
@@ -813,7 +813,7 @@
 
 <!-- FOOTER -->
 <footer>
-    <div class="logo">Tanger d'Antan</div>
+    <div class="logo" data-i18n="site_name">Tanger d'Antan</div>
     <p data-i18n="footer_copyright">© 2026 — Projet de préservation du patrimoine visuel de Tanger</p>
 </footer>
 
@@ -854,7 +854,8 @@
 // ── TRANSLATIONS ──
 const i18n = {
     fr: {
-        hero_ornament: "Patrimoine Visuel · Maroc",
+        site_name: "Tanger d'Antan",
+        hero_label: "Patrimoine Visuel · Maroc",
         hero_subtitle: "Photos Historiques Restaurées",
         hero_desc: "Un voyage dans le temps à travers les rues, les visages et les places de la cité du Détroit — des années 1900 aux années 1980.",
         scroll_hint: "Découvrir",
@@ -876,7 +877,8 @@ const i18n = {
         edit_hint: "✎ Mode édition — modifie le texte, Enter pour valider"
     },
     en: {
-        hero_ornament: "Visual Heritage · Morocco",
+        site_name: "Tangier of Yesteryear",
+        hero_label: "Visual Heritage · Morocco",
         hero_subtitle: "Restored Historical Photos",
         hero_desc: "A journey through time along the streets, faces and squares of the city of the Strait — from the 1900s to the 1980s.",
         scroll_hint: "Discover",
@@ -898,7 +900,8 @@ const i18n = {
         edit_hint: "✎ Edit mode — click text to edit, Enter to save"
     },
     es: {
-        hero_ornament: "Patrimonio Visual · Marruecos",
+        site_name: "Tánger de Antaño",
+        hero_label: "Patrimonio Visual · Marruecos",
         hero_subtitle: "Fotos Históricas Restauradas",
         hero_desc: "Un viaje en el tiempo por las calles, rostros y plazas de la ciudad del Estrecho — desde los años 1900 hasta los 1980.",
         scroll_hint: "Descubrir",
@@ -920,7 +923,8 @@ const i18n = {
         edit_hint: "✎ Modo edición — haz clic en el texto para editar, Enter para guardar"
     },
     ar: {
-        hero_ornament: "تراث بصري · المغرب",
+        site_name: "طنجة الزمن الجميل",
+        hero_label: "تراث بصري · المغرب",
         hero_subtitle: "صور تاريخية مستعادة",
         hero_desc: "رحلة عبر الزمن في شوارع ووجوه وساحات مدينة المضيق — من عام 1900 إلى 1980.",
         scroll_hint: "اكتشف",
@@ -1014,26 +1018,26 @@ let photos = loadPhotos();
 
 // Also keep DEFAULT_PHOTOS for reference
 const DEFAULT_PHOTOS = [
-    { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg", srcColor:"" },
-    { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg", srcColor:"" },
-    { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg", srcColor:"" },
-    { id:4,  year:"1940", title:"La Kasbah", desc:"Les remparts millénaires qui dominent la Méditerranée.", src:"images/kasbah-1940.jpg",             srcBefore:"images/avant/kasbah-1940.jpg", srcColor:"" },
-    { id:5,  year:"1930", title:"Le Port", desc:"Les quais du port, porte entre l'Europe et l'Afrique.", src:"images/port-1930.jpg",               srcBefore:"images/avant/port-1930.jpg", srcColor:"" },
-    { id:6,  year:"1955", title:"Boulevard Pasteur", desc:"L'artère principale de la ville européenne.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"images/avant/bd-pasteur-1955.jpg", srcColor:"" },
-    { id:7,  year:"1945", title:"La Médina", desc:"Ruelles tortueuses et maisons blanches de la vieille ville.", src:"images/medina-1945.jpg",             srcBefore:"images/avant/medina-1945.jpg", srcColor:"" },
-    { id:8,  year:"1960", title:"La Corniche", desc:"La promenade en bord de mer, élégance tangéroise.", src:"images/corniche-1960.jpg",           srcBefore:"images/avant/corniche-1960.jpg", srcColor:"" },
-    { id:9,  year:"1935", title:"Café Hafa", desc:"Le café mythique en terrasses dominant le détroit.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"images/avant/cafe-hafa-1935.jpg", srcColor:"" },
-    { id:10, year:"1948", title:"Rue de la Liberté", desc:"La rue commerçante au temps de la zone internationale.", src:"images/rue-liberte-1948.jpg",       srcBefore:"images/avant/rue-liberte-1948.jpg", srcColor:"" },
-    { id:11, year:"1920", title:"Cap Spartel", desc:"Le phare légendaire à la jonction des deux mers.", src:"images/cap-spartel-1920.jpg",         srcBefore:"images/avant/cap-spartel-1920.jpg", srcColor:"" },
-    { id:12, year:"1958", title:"La Ville Nouvelle", desc:"L'essor urbain de Tanger après l'indépendance.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"images/avant/ville-nouvelle-1958.jpg", srcColor:"" },
-    { id:13, year:"1942", title:"Marché Central", desc:"Le marché couvert, odeurs et couleurs d'une époque.", src:"images/marche-central-1942.jpg",    srcBefore:"images/avant/marche-central-1942.jpg", srcColor:"" },
-    { id:14, year:"1965", title:"Plage Malabata", desc:"La plage de Malabata, vacanciers et pêcheurs.", src:"images/plage-malabata-1965.jpg",      srcBefore:"images/avant/plage-malabata-1965.jpg", srcColor:"" },
-    { id:15, year:"1933", title:"Bab Fahs", desc:"La porte d'entrée de la médina depuis les souks.", src:"images/bab-fahs-1933.jpg",             srcBefore:"images/avant/bab-fahs-1933.jpg", srcColor:"" },
-    { id:16, year:"1970", title:"Cinéma Rif", desc:"La salle mythique du Grand Socco, temple du cinéma.", src:"images/cinema-rif-1970.jpg",          srcBefore:"images/avant/cinema-rif-1970.jpg", srcColor:"" },
-    { id:17, year:"1928", title:"Le Marshan", desc:"Le quartier résidentiel en hauteur face au détroit.", src:"images/marshan-1928.jpg",             srcBefore:"images/avant/marshan-1928.jpg", srcColor:"" },
-    { id:18, year:"1975", title:"La Gare", desc:"La gare de Tanger, départ vers Casablanca et Rabat.", src:"images/gare-1975.jpg",                srcBefore:"images/avant/gare-1975.jpg", srcColor:"" },
-    { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg", srcColor:"" },
-    { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg", srcColor:"" },
+    { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", title_en:"Grand Socco", desc_en:"The great market square, beating heart of international Tangier.", title_es:"Gran Socco", desc_es:"La gran plaza del mercado, corazón del Tánger internacional.", title_ar:"السوق الكبير", desc_ar:"ساحة السوق الكبير، قلب طنجة الدولية النابض.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg", srcColor:"" },
+    { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", title_en:"Petit Socco", desc_en:"The Petit Socco cafe, meeting place for artists and diplomats.", title_es:"Pequeño Socco", desc_es:"El café del Pequeño Socco, punto de encuentro de artistas y diplomáticos.", title_ar:"السوق الصغير", desc_ar:"مقهى السوق الصغير، ملتقى الفنانين والدبلوماسيين.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg", srcColor:"" },
+    { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", title_en:"Government Square", desc_en:"The central square under the international protectorate.", title_es:"Plaza del Gobierno", desc_es:"La plaza central bajo el protectorado internacional.", title_ar:"ساحة الحكومة", desc_ar:"الساحة المركزية تحت الحماية الدولية.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg", srcColor:"" },
+    { id:4,  year:"1940", title:"La Kasbah", desc:"Les remparts millénaires qui dominent la Méditerranée.", title_en:"The Kasbah", desc_en:"The ancient ramparts overlooking the Mediterranean.", title_es:"La Kasbah", desc_es:"Las murallas milenarias que dominan el Mediterráneo.", title_ar:"القصبة", desc_ar:"أسوار القصبة القديمة المطلة على البحر الأبيض المتوسط.", src:"images/kasbah-1940.jpg",             srcBefore:"images/avant/kasbah-1940.jpg", srcColor:"" },
+    { id:5,  year:"1930", title:"Le Port", desc:"Les quais du port, porte entre l'Europe et l'Afrique.", title_en:"The Port", desc_en:"The port quays, gateway between Europe and Africa.", title_es:"El Puerto", desc_es:"Los muelles del puerto, puerta entre Europa y África.", title_ar:"الميناء", desc_ar:"أرصفة الميناء، بوابة بين أوروبا وإفريقيا.", src:"images/port-1930.jpg",               srcBefore:"images/avant/port-1930.jpg", srcColor:"" },
+    { id:6,  year:"1955", title:"Boulevard Pasteur", desc:"L'artère principale de la ville européenne.", title_en:"Boulevard Pasteur", desc_en:"The main artery of the European city.", title_es:"Bulevar Pasteur", desc_es:"La arteria principal de la ciudad europea.", title_ar:"شارع باستور", desc_ar:"الشريان الرئيسي للمدينة الأوروبية.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"images/avant/bd-pasteur-1955.jpg", srcColor:"" },
+    { id:7,  year:"1945", title:"La Médina", desc:"Ruelles tortueuses et maisons blanches de la vieille ville.", title_en:"The Medina", desc_en:"Winding alleys and white houses of the old city.", title_es:"La Medina", desc_es:"Callejuelas tortuosas y casas blancas de la ciudad vieja.", title_ar:"المدينة القديمة", desc_ar:"أزقة متعرجة ومنازل بيضاء في المدينة القديمة.", src:"images/medina-1945.jpg",             srcBefore:"images/avant/medina-1945.jpg", srcColor:"" },
+    { id:8,  year:"1960", title:"La Corniche", desc:"La promenade en bord de mer, élégance tangéroise.", title_en:"The Corniche", desc_en:"The seaside promenade, Tangier elegance.", title_es:"La Corniche", desc_es:"El paseo marítimo, elegancia tanjerina.", title_ar:"الكورنيش", desc_ar:"الممشى على شاطئ البحر، أناقة طنجة.", src:"images/corniche-1960.jpg",           srcBefore:"images/avant/corniche-1960.jpg", srcColor:"" },
+    { id:9,  year:"1935", title:"Café Hafa", desc:"Le café mythique en terrasses dominant le détroit.", title_en:"Café Hafa", desc_en:"The mythical terrace cafe overlooking the strait.", title_es:"Café Hafa", desc_es:"El mítico café en terrazas con vistas al estrecho.", title_ar:"مقهى حافة", desc_ar:"المقهى الأسطوري على المدرجات المطلة على المضيق.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"images/avant/cafe-hafa-1935.jpg", srcColor:"" },
+    { id:10, year:"1948", title:"Rue de la Liberté", desc:"La rue commerçante au temps de la zone internationale.", title_en:"Liberty Street", desc_en:"The shopping street during the International Zone era.", title_es:"Calle de la Libertad", desc_es:"La calle comercial en la época de la Zona Internacional.", title_ar:"شارع الحرية", desc_ar:"شارع التسوق في زمن المنطقة الدولية.", src:"images/rue-liberte-1948.jpg",       srcBefore:"images/avant/rue-liberte-1948.jpg", srcColor:"" },
+    { id:11, year:"1920", title:"Cap Spartel", desc:"Le phare légendaire à la jonction des deux mers.", title_en:"Cape Spartel", desc_en:"The legendary lighthouse at the junction of two seas.", title_es:"Cabo Espartel", desc_es:"El faro legendario en la unión de dos mares.", title_ar:"رأس سبارطيل", desc_ar:"المنارة الأسطورية عند ملتقى بحرين.", src:"images/cap-spartel-1920.jpg",         srcBefore:"images/avant/cap-spartel-1920.jpg", srcColor:"" },
+    { id:12, year:"1958", title:"La Ville Nouvelle", desc:"L'essor urbain de Tanger après l'indépendance.", title_en:"The New City", desc_en:"Tangier's urban development after independence.", title_es:"La Ciudad Nueva", desc_es:"El auge urbano de Tánger tras la independencia.", title_ar:"المدينة الجديدة", desc_ar:"النمو العمراني لطنجة بعد الاستقلال.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"images/avant/ville-nouvelle-1958.jpg", srcColor:"" },
+    { id:13, year:"1942", title:"Marché Central", desc:"Le marché couvert, odeurs et couleurs d'une époque.", title_en:"Central Market", desc_en:"The covered market, scents and colors of an era.", title_es:"Mercado Central", desc_es:"El mercado cubierto, olores y colores de una época.", title_ar:"السوق المركزي", desc_ar:"السوق المسقوف، روائح وألوان زمن مضى.", src:"images/marche-central-1942.jpg",    srcBefore:"images/avant/marche-central-1942.jpg", srcColor:"" },
+    { id:14, year:"1965", title:"Plage Malabata", desc:"La plage de Malabata, vacanciers et pêcheurs.", title_en:"Malabata Beach", desc_en:"Malabata beach, holidaymakers and fishermen.", title_es:"Playa Malabata", desc_es:"La playa de Malabata, bañistas y pescadores.", title_ar:"شاطئ مالاباطا", desc_ar:"شاطئ مالاباطا، المصطافون والصيادون.", src:"images/plage-malabata-1965.jpg",      srcBefore:"images/avant/plage-malabata-1965.jpg", srcColor:"" },
+    { id:15, year:"1933", title:"Bab Fahs", desc:"La porte d'entrée de la médina depuis les souks.", title_en:"Bab Fahs", desc_en:"The gateway to the medina from the souks.", title_es:"Bab Fahs", desc_es:"La puerta de entrada a la medina desde los zocos.", title_ar:"باب فحص", desc_ar:"بوابة الدخول إلى المدينة القديمة من الأسواق.", src:"images/bab-fahs-1933.jpg",             srcBefore:"images/avant/bab-fahs-1933.jpg", srcColor:"" },
+    { id:16, year:"1970", title:"Cinéma Rif", desc:"La salle mythique du Grand Socco, temple du cinéma.", title_en:"Cinema Rif", desc_en:"The mythical Grand Socco cinema hall.", title_es:"Cine Rif", desc_es:"La mítica sala del Gran Socco, templo del cine.", title_ar:"سينما ريف", desc_ar:"قاعة السينما الأسطورية في السوق الكبير، معبد السينما.", src:"images/cinema-rif-1970.jpg",          srcBefore:"images/avant/cinema-rif-1970.jpg", srcColor:"" },
+    { id:17, year:"1928", title:"Le Marshan", desc:"Le quartier résidentiel en hauteur face au détroit.", title_en:"Le Marshan", desc_en:"The residential quarter overlooking the strait.", title_es:"Le Marshan", desc_es:"El barrio residencial en lo alto frente al estrecho.", title_ar:"المارشان", desc_ar:"الحي السكني المرتفع المطل على المضيق.", src:"images/marshan-1928.jpg",             srcBefore:"images/avant/marshan-1928.jpg", srcColor:"" },
+    { id:18, year:"1975", title:"La Gare", desc:"La gare de Tanger, départ vers Casablanca et Rabat.", title_en:"The Train Station", desc_en:"Tangier station, gateway to Casablanca and Rabat.", title_es:"La Estación", desc_es:"La estación de Tánger, salida hacia Casablanca y Rabat.", title_ar:"محطة القطار", desc_ar:"محطة طنجة، بوابة إلى الدار البيضاء والرباط.", src:"images/gare-1975.jpg",                srcBefore:"images/avant/gare-1975.jpg", srcColor:"" },
+    { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", title_en:"Hotel Continental", desc_en:"The historic palace overlooking the port since 1888.", title_es:"Hotel Continental", desc_es:"El palacio histórico con vistas al puerto desde 1888.", title_ar:"فندق كونتيننتال", desc_ar:"القصر التاريخي المطل على الميناء منذ 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg", srcColor:"" },
+    { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", title_en:"Strait of Gibraltar", desc_en:"View of the strait, Europe and Africa face to face.", title_es:"Estrecho de Gibraltar", desc_es:"Vista del estrecho, Europa y África cara a cara.", title_ar:"مضيق جبل طارق", desc_ar:"إطلالة على المضيق، أوروبا وإفريقيا وجها لوجه.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg", srcColor:"" },
 ];
 
 
