@@ -9,7 +9,7 @@
 ## Repo & Access
 - GitHub: https://github.com/ucfzem
 - Pages: https://ucfzem.github.io/tanger/
-- GitHub token must have `repo` scope; token may expire between sessions
+- GitHub token must have `repo` scope; token may expire between sessions; always remove token from remote URL after push
 
 ## Tanger d'Antan — Completed Work
 
