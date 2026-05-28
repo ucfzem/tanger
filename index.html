@@ -690,6 +690,28 @@
         .mode-btn:hover {
             border-color: var(--gold);
         }
+
+        .lightbox-year[contenteditable]:hover,
+        .lightbox-title[contenteditable]:hover,
+        .lightbox-desc[contenteditable]:hover {
+            outline: 1px dashed var(--gold-dim);
+            cursor: text;
+        }
+
+        .lightbox-year[contenteditable]:focus,
+        .lightbox-title[contenteditable]:focus,
+        .lightbox-desc[contenteditable]:focus {
+            outline: 1px solid var(--gold);
+            background: rgba(201,168,76,0.08);
+        }
+
+        .edit-hint {
+            font-family: 'Cinzel', serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-dim);
+            margin-top: 0.3rem;
+        }
     </style>
 </head>
 <body>
@@ -792,7 +814,19 @@
 
 <script>
 // ── PHOTO DATA (remplacer src par vos vraies images) ──
-const photos = [
+// ── LOAD/SAVE PHOTOS (admin edits) ──
+function loadPhotos() {
+    try {
+        const saved = localStorage.getItem('tanger_photos');
+        if (saved) { const p = JSON.parse(saved); if (Array.isArray(p) && p.length) return p; }
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
+}
+function savePhotos() { localStorage.setItem('tanger_photos', JSON.stringify(photos)); }
+let photos = loadPhotos();
+
+// Also keep DEFAULT_PHOTOS for reference
+const DEFAULT_PHOTOS = [
     { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg", srcColor:"" },
     { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg", srcColor:"" },
     { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg", srcColor:"" },
@@ -960,6 +994,58 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
         test.onload = () => { afterImg.src = src; };
         test.onerror = () => { afterImg.src = p.src; };
         test.src = src;
+    });
+});
+
+
+// ── ADMIN MODE (clic ×5 sur "Tanger d'Antan" dans la navbar) ──
+let adminClicks = 0;
+let adminMode = false;
+
+document.querySelector('.nav-brand').addEventListener('click', (e) => {
+    e.preventDefault();
+    adminClicks++;
+    if (adminClicks >= 5) {
+        adminClicks = 0;
+        adminMode = !adminMode;
+        const fields = document.querySelectorAll('#lbYear, #lbTitle, #lbDesc');
+        fields.forEach(f => f.contentEditable = adminMode);
+        const hint = document.getElementById('editHint');
+        if (adminMode) {
+            if (!hint) {
+                const h = document.createElement('div');
+                h.className = 'edit-hint';
+                h.id = 'editHint';
+                h.textContent = '✎ Mode édition — modifie le texte, Enter pour valider';
+                document.querySelector('.lightbox-meta').appendChild(h);
+            }
+        } else {
+            if (hint) hint.remove();
+        }
+    }
+});
+
+
+// ── INLINE EDITING ──
+document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
+    el.addEventListener('blur', () => {
+        if (!adminMode) return;
+        const p = photos[currentIndex];
+        if (!p) return;
+        const val = el.textContent.trim();
+        if (el.id === 'lbYear') p.year = val;
+        else if (el.id === 'lbTitle') p.title = val;
+        else if (el.id === 'lbDesc') p.desc = val;
+        savePhotos();
+        const items = document.querySelectorAll('.gallery-item');
+        if (items[currentIndex]) {
+            const caps = items[currentIndex].querySelectorAll('.gallery-caption div');
+            if (caps[0]) caps[0].textContent = photos[currentIndex].year;
+            if (caps[1]) caps[1].textContent = photos[currentIndex].title;
+        }
+    });
+    el.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
     });
 });
 
