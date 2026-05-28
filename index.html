@@ -941,6 +941,8 @@ function openLightbox(index) {
     document.getElementById('lbTitle').textContent = p.title;
     document.getElementById('lbDesc').textContent = p.desc;
 
+    // Enable editing if admin mode
+    document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(f => f.contentEditable = adminMode);
 
     lb.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -998,32 +1000,17 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
 });
 
 
-// ── ADMIN MODE (clic ×5 sur "Tanger d'Antan" dans la navbar) ──
-let adminClicks = 0;
-let adminMode = false;
+// ── ADMIN MODE (ajouter ?edit à l'URL) ──
+const urlParams = new URLSearchParams(window.location.search);
+let adminMode = urlParams.has('edit');
 
-document.querySelector('.nav-brand').addEventListener('click', (e) => {
-    e.preventDefault();
-    adminClicks++;
-    if (adminClicks >= 5) {
-        adminClicks = 0;
-        adminMode = !adminMode;
-        const fields = document.querySelectorAll('#lbYear, #lbTitle, #lbDesc');
-        fields.forEach(f => f.contentEditable = adminMode);
-        const hint = document.getElementById('editHint');
-        if (adminMode) {
-            if (!hint) {
-                const h = document.createElement('div');
-                h.className = 'edit-hint';
-                h.id = 'editHint';
-                h.textContent = '✎ Mode édition — modifie le texte, Enter pour valider';
-                document.querySelector('.lightbox-meta').appendChild(h);
-            }
-        } else {
-            if (hint) hint.remove();
-        }
-    }
-});
+if (adminMode) {
+    const hint = document.createElement('div');
+    hint.className = 'edit-hint';
+    hint.id = 'editHint';
+    hint.textContent = '✎ Mode édition — modifie le texte, Enter pour valider';
+    document.querySelector('.lightbox-meta').appendChild(hint);
+}
 
 
 // ── INLINE EDITING ──
