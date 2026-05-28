@@ -1266,6 +1266,10 @@ document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
 });
 
 
+// ── SCROLL TO TOP ON REFRESH ──
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 // ── BEFORE/AFTER SLIDER ──
 const divider = document.getElementById('baDivider');
 const stack = document.getElementById('baStack');
