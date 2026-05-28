@@ -1045,11 +1045,17 @@ const DEFAULT_PHOTOS = [
 // ── LOAD/SAVE PHOTOS (admin edits) ──
 function loadPhotos() {
     try {
+        if (new URLSearchParams(window.location.search).has('reset')) {
+            localStorage.removeItem('tanger_photos');
+        }
         const saved = localStorage.getItem('tanger_photos');
         if (saved) {
             const p = JSON.parse(saved);
             if (Array.isArray(p) && p.length) {
-                return p.map((photo, i) => ({ ...DEFAULT_PHOTOS[i], ...photo }));
+                return p.map((photo, i) => {
+                    const def = DEFAULT_PHOTOS[i] || {};
+                    return { ...photo, ...def };
+                });
             }
         }
     } catch(e) {}
