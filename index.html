@@ -1281,6 +1281,17 @@ document.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clien
 document.addEventListener('touchmove', e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
 document.addEventListener('mouseup', () => { dragging = false; });
 document.addEventListener('touchend', () => { dragging = false; });
+
+// ── EXPORT (ajouter ?export à l'URL) ──
+if (new URLSearchParams(window.location.search).has('export')) {
+    const box = document.createElement('div');
+    box.style.cssText = 'max-width:800px;margin:2rem auto;padding:2rem;background:#1a1508;border:1px solid var(--gold-dim);font-family:monospace;font-size:0.85rem;line-height:1.8;white-space:pre-wrap';
+    box.innerHTML = '<h3 style="color:var(--gold);font-family:Cinzel;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1rem">📋 Données des photos (modifiées)</h3>';
+    photos.forEach((p, i) => {
+        box.innerHTML += `${i+1}. ${p.year} · ${p.title} · ${p.desc}\n`;
+    });
+    document.querySelector('.share-section').after(box);
+}
 </script>
 </body>
 </html>
