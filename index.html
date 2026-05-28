@@ -412,7 +412,6 @@
             width: 100%;
             max-height: 75vh;
             object-fit: contain;
-            filter: sepia(60%) contrast(0.85) brightness(0.85);
             position: absolute;
             top: 0; left: 0;
             width: 100%;
@@ -659,6 +658,38 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .mode-toggle {
+            position: absolute;
+            top: 0.8rem;
+            left: 0.8rem;
+            z-index: 20;
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .mode-btn {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--cream-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.15em;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: rgba(201,168,76,0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .mode-btn:hover {
+            border-color: var(--gold);
+        }
     </style>
 </head>
 <body>
@@ -741,6 +772,10 @@
             </div>
             <span class="ba-label avant">Avant</span>
             <span class="ba-label apres">Après</span>
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="bw">B&W</button>
+                <button class="mode-btn" data-mode="color">Colorisé</button>
+            </div>
         </div>
         <div class="lightbox-meta">
             <div class="lightbox-year" id="lbYear"></div>
@@ -758,26 +793,26 @@
 <script>
 // ── PHOTO DATA (remplacer src par vos vraies images) ──
 const photos = [
-    { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg" },
-    { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg" },
-    { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg" },
-    { id:4,  year:"1940", title:"La Kasbah", desc:"Les remparts millénaires qui dominent la Méditerranée.", src:"images/kasbah-1940.jpg",             srcBefore:"images/avant/kasbah-1940.jpg" },
-    { id:5,  year:"1930", title:"Le Port", desc:"Les quais du port, porte entre l'Europe et l'Afrique.", src:"images/port-1930.jpg",               srcBefore:"images/avant/port-1930.jpg" },
-    { id:6,  year:"1955", title:"Boulevard Pasteur", desc:"L'artère principale de la ville européenne.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"images/avant/bd-pasteur-1955.jpg" },
-    { id:7,  year:"1945", title:"La Médina", desc:"Ruelles tortueuses et maisons blanches de la vieille ville.", src:"images/medina-1945.jpg",             srcBefore:"images/avant/medina-1945.jpg" },
-    { id:8,  year:"1960", title:"La Corniche", desc:"La promenade en bord de mer, élégance tangéroise.", src:"images/corniche-1960.jpg",           srcBefore:"images/avant/corniche-1960.jpg" },
-    { id:9,  year:"1935", title:"Café Hafa", desc:"Le café mythique en terrasses dominant le détroit.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"images/avant/cafe-hafa-1935.jpg" },
-    { id:10, year:"1948", title:"Rue de la Liberté", desc:"La rue commerçante au temps de la zone internationale.", src:"images/rue-liberte-1948.jpg",       srcBefore:"images/avant/rue-liberte-1948.jpg" },
-    { id:11, year:"1920", title:"Cap Spartel", desc:"Le phare légendaire à la jonction des deux mers.", src:"images/cap-spartel-1920.jpg",         srcBefore:"images/avant/cap-spartel-1920.jpg" },
-    { id:12, year:"1958", title:"La Ville Nouvelle", desc:"L'essor urbain de Tanger après l'indépendance.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"images/avant/ville-nouvelle-1958.jpg" },
-    { id:13, year:"1942", title:"Marché Central", desc:"Le marché couvert, odeurs et couleurs d'une époque.", src:"images/marche-central-1942.jpg",    srcBefore:"images/avant/marche-central-1942.jpg" },
-    { id:14, year:"1965", title:"Plage Malabata", desc:"La plage de Malabata, vacanciers et pêcheurs.", src:"images/plage-malabata-1965.jpg",      srcBefore:"images/avant/plage-malabata-1965.jpg" },
-    { id:15, year:"1933", title:"Bab Fahs", desc:"La porte d'entrée de la médina depuis les souks.", src:"images/bab-fahs-1933.jpg",             srcBefore:"images/avant/bab-fahs-1933.jpg" },
-    { id:16, year:"1970", title:"Cinéma Rif", desc:"La salle mythique du Grand Socco, temple du cinéma.", src:"images/cinema-rif-1970.jpg",          srcBefore:"images/avant/cinema-rif-1970.jpg" },
-    { id:17, year:"1928", title:"Le Marshan", desc:"Le quartier résidentiel en hauteur face au détroit.", src:"images/marshan-1928.jpg",             srcBefore:"images/avant/marshan-1928.jpg" },
-    { id:18, year:"1975", title:"La Gare", desc:"La gare de Tanger, départ vers Casablanca et Rabat.", src:"images/gare-1975.jpg",                srcBefore:"images/avant/gare-1975.jpg" },
-    { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg" },
-    { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg" },
+    { id:1,  year:"1925", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger international.", src:"images/grand-socco-1925.jpg",      srcBefore:"images/avant/grand-socco-1925.jpg", srcColor:"" },
+    { id:2,  year:"1938", title:"Petit Socco", desc:"Le café du Petit Socco, rendez-vous des artistes et diplomates.", src:"images/petit-socco-1938.jpg",      srcBefore:"images/avant/petit-socco-1938.jpg", srcColor:"" },
+    { id:3,  year:"1952", title:"Place du Gouvernement", desc:"La place centrale sous le protectorat international.", src:"images/place-gouvernement-1952.jpg", srcBefore:"images/avant/place-gouvernement-1952.jpg", srcColor:"" },
+    { id:4,  year:"1940", title:"La Kasbah", desc:"Les remparts millénaires qui dominent la Méditerranée.", src:"images/kasbah-1940.jpg",             srcBefore:"images/avant/kasbah-1940.jpg", srcColor:"" },
+    { id:5,  year:"1930", title:"Le Port", desc:"Les quais du port, porte entre l'Europe et l'Afrique.", src:"images/port-1930.jpg",               srcBefore:"images/avant/port-1930.jpg", srcColor:"" },
+    { id:6,  year:"1955", title:"Boulevard Pasteur", desc:"L'artère principale de la ville européenne.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"images/avant/bd-pasteur-1955.jpg", srcColor:"" },
+    { id:7,  year:"1945", title:"La Médina", desc:"Ruelles tortueuses et maisons blanches de la vieille ville.", src:"images/medina-1945.jpg",             srcBefore:"images/avant/medina-1945.jpg", srcColor:"" },
+    { id:8,  year:"1960", title:"La Corniche", desc:"La promenade en bord de mer, élégance tangéroise.", src:"images/corniche-1960.jpg",           srcBefore:"images/avant/corniche-1960.jpg", srcColor:"" },
+    { id:9,  year:"1935", title:"Café Hafa", desc:"Le café mythique en terrasses dominant le détroit.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"images/avant/cafe-hafa-1935.jpg", srcColor:"" },
+    { id:10, year:"1948", title:"Rue de la Liberté", desc:"La rue commerçante au temps de la zone internationale.", src:"images/rue-liberte-1948.jpg",       srcBefore:"images/avant/rue-liberte-1948.jpg", srcColor:"" },
+    { id:11, year:"1920", title:"Cap Spartel", desc:"Le phare légendaire à la jonction des deux mers.", src:"images/cap-spartel-1920.jpg",         srcBefore:"images/avant/cap-spartel-1920.jpg", srcColor:"" },
+    { id:12, year:"1958", title:"La Ville Nouvelle", desc:"L'essor urbain de Tanger après l'indépendance.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"images/avant/ville-nouvelle-1958.jpg", srcColor:"" },
+    { id:13, year:"1942", title:"Marché Central", desc:"Le marché couvert, odeurs et couleurs d'une époque.", src:"images/marche-central-1942.jpg",    srcBefore:"images/avant/marche-central-1942.jpg", srcColor:"" },
+    { id:14, year:"1965", title:"Plage Malabata", desc:"La plage de Malabata, vacanciers et pêcheurs.", src:"images/plage-malabata-1965.jpg",      srcBefore:"images/avant/plage-malabata-1965.jpg", srcColor:"" },
+    { id:15, year:"1933", title:"Bab Fahs", desc:"La porte d'entrée de la médina depuis les souks.", src:"images/bab-fahs-1933.jpg",             srcBefore:"images/avant/bab-fahs-1933.jpg", srcColor:"" },
+    { id:16, year:"1970", title:"Cinéma Rif", desc:"La salle mythique du Grand Socco, temple du cinéma.", src:"images/cinema-rif-1970.jpg",          srcBefore:"images/avant/cinema-rif-1970.jpg", srcColor:"" },
+    { id:17, year:"1928", title:"Le Marshan", desc:"Le quartier résidentiel en hauteur face au détroit.", src:"images/marshan-1928.jpg",             srcBefore:"images/avant/marshan-1928.jpg", srcColor:"" },
+    { id:18, year:"1975", title:"La Gare", desc:"La gare de Tanger, départ vers Casablanca et Rabat.", src:"images/gare-1975.jpg",                srcBefore:"images/avant/gare-1975.jpg", srcColor:"" },
+    { id:19, year:"1936", title:"Hôtel Continental", desc:"Le palace historique surplombant le port depuis 1888.", src:"images/hotel-continental-1936.jpg", srcBefore:"images/avant/hotel-continental-1936.jpg", srcColor:"" },
+    { id:20, year:"1963", title:"Détroit de Gibraltar", desc:"Vue sur le détroit, Europe et Afrique face à face.", src:"images/detroit-1963.jpg",            srcBefore:"images/avant/detroit-1963.jpg", srcColor:"" },
 ];
 
 
@@ -838,6 +873,7 @@ document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
 
 // ── LIGHTBOX ──
 let currentIndex = 0;
+let currentMode = 'bw';
 
 
 function openLightbox(index) {
@@ -907,6 +943,24 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
     if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+});
+
+
+// ── MODE TOGGLE (B&W / Colorisé) ──
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        if (mode === currentMode) return;
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+        const p = photos[currentIndex];
+        const afterImg = document.getElementById('baAfter');
+        const src = mode === 'color' && p.srcColor ? p.srcColor : p.src;
+        const test = new Image();
+        test.onload = () => { afterImg.src = src; };
+        test.onerror = () => { afterImg.src = p.src; };
+        test.src = src;
+    });
 });
 
 
