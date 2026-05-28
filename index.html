@@ -446,40 +446,33 @@
         .ba-container {
             position: relative;
             width: 100%;
-            overflow: hidden;
             user-select: none;
             border: 1px solid rgba(201, 168, 76, 0.2);
         }
 
-
-        .ba-after {
+        .ba-img {
             display: block;
             width: 100%;
             max-height: 75vh;
             object-fit: contain;
-            filter: sepia(20%) contrast(1.05);
         }
 
+        .ba-after { filter: sepia(20%) contrast(1.05); }
 
-        .ba-before-wrap {
+        .ba-stack {
             position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            overflow: hidden;
-            width: 50%;
+            inset: 0;
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
         }
 
-
-        .ba-before {
+        .ba-stack img {
             display: block;
-            position: absolute;
-            top: 0; left: 0;
-            width: 200%;
+            width: 100%;
             height: 100%;
-            object-fit: cover;
-            max-width: none;
+            object-fit: contain;
+            max-height: 75vh;
         }
-
 
         .ba-divider {
             position: absolute;
@@ -525,6 +518,7 @@
             padding: 0.3rem 0.7rem;
             text-transform: uppercase;
             pointer-events: none;
+            z-index: 3;
         }
 
 
@@ -848,9 +842,9 @@
     <div class="lightbox-inner">
         <button class="lightbox-close" id="lightboxClose" data-i18n="close">✕ Fermer</button>
         <div class="ba-container" id="baContainer">
-            <img class="ba-after" id="baAfter" src="" alt="">
-            <div class="ba-before-wrap" id="baBeforeWrap">
-                <img class="ba-before" id="baBefore" src="" alt="">
+            <img class="ba-img ba-after" id="baAfter" src="" alt="">
+            <div class="ba-stack" id="baStack">
+                <img class="ba-img" id="baBefore" src="" alt="">
             </div>
             <div class="ba-divider" id="baDivider">
                 <div class="ba-handle">⟺</div>
@@ -1149,12 +1143,12 @@ function openLightbox(index) {
 
     const afterImg = document.getElementById('baAfter');
     const beforeImg = document.getElementById('baBefore');
-    const beforeWrap = document.getElementById('baBeforeWrap');
+    const stack = document.getElementById('baStack');
 
 
     afterImg.src = placeholder(p.title + ' — Restaurée', 900, 600);
     beforeImg.src = placeholder(p.title + ' — Original', 900, 600);
-    beforeWrap.style.width = '50%';
+    stack.style.clipPath = 'inset(0 50% 0 0)';
 
 
     // Try real images
@@ -1274,13 +1268,13 @@ document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
 
 // ── BEFORE/AFTER SLIDER ──
 const divider = document.getElementById('baDivider');
-const beforeWrap = document.getElementById('baBeforeWrap');
+const stack = document.getElementById('baStack');
 const baContainer = document.getElementById('baContainer');
 let dragging = false;
 
 
 function resetSlider() {
-    beforeWrap.style.width = '50%';
+    stack.style.clipPath = 'inset(0 50% 0 0)';
     divider.style.left = '50%';
 }
 
@@ -1289,7 +1283,7 @@ function setSliderPos(clientX) {
     const rect = baContainer.getBoundingClientRect();
     let pct = ((clientX - rect.left) / rect.width) * 100;
     pct = Math.max(2, Math.min(98, pct));
-    beforeWrap.style.width = pct + '%';
+    stack.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
     divider.style.left = pct + '%';
 }
 
