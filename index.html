@@ -864,7 +864,7 @@
             <div class="ba-stack" id="baStack">
                 <img class="ba-img" id="baBefore" src="" alt="">
             </div>
-            <div class="ba-divider" id="baDivider">
+            <div class="ba-divider" id="baDivider" tabindex="0" role="slider" aria-label="Comparateur avant/après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
                 <div class="ba-handle">⟺</div>
             </div>
             <span class="ba-label avant" data-i18n="before_label">Avant</span>
@@ -1014,6 +1014,8 @@ function applyLang(lang) {
             const caps = item.querySelectorAll('.gallery-caption div');
             if (caps[0]) caps[0].textContent = p.year;
             if (caps[1]) caps[1].textContent = p['title_' + lang] || p.title;
+            const img = item.querySelector('img');
+            if (img) img.alt = (p['title_' + lang] || p.title) + ' — Photo historique de Tanger ' + p.year;
         });
         // Update lightbox if open
         const lb = document.getElementById('lightbox');
@@ -1088,15 +1090,19 @@ function loadPhotos() {
     } catch(e) {}
     return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
 }
-function savePhotos() { localStorage.setItem('tanger_photos', JSON.stringify(photos)); }
+function savePhotos() { try { localStorage.setItem('tanger_photos', JSON.stringify(photos)); } catch(e) {} }
 let photos = loadPhotos();
 
+
+// ── ESCAPE HTML ──
+function esc(str) { return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]; }); }
 
 // ── PLACEHOLDER IMAGE (gris sépia) ──
 function placeholder(text, w=600, h=450) {
     const colors = ['#2a2015','#1e180a','#251c0d','#1a1408','#2e2210'];
     const c = colors[Math.floor(Math.random()*colors.length)];
-    return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="${c}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#c9a84c55" font-family="Georgia,serif" font-size="14">${text}</text></svg>`)}`;
+    const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="${c}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#c9a84c55" font-family="Georgia,serif" font-size="14">${safe}</text></svg>`)}`;
 }
 
 
@@ -1108,16 +1114,17 @@ photos.forEach((p, i) => {
     const item = document.createElement('div');
     item.className = 'gallery-item';
     item.dataset.index = i;
+    const hasColor = !!p.srcColor;
     item.innerHTML = `
         <span class="before-after-badge">Avant / Après</span>
-        <img src="${placeholder(p.title + ' · ' + p.year, 600, h)}" 
-             alt="${p.title} — Photo historique de Tanger ${p.year} — ${p.desc}" loading="lazy"
-             onerror="this.src='${placeholder(p.title, 600, h)}'"
+        <img src="${placeholder(esc(p.title) + ' · ' + p.year, 600, h)}" 
+             alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="lazy"
+             onerror="this.src='${placeholder(esc(p.title), 600, h)}'"
              data-real="${p.src}"
              data-real-color="${p.srcColor}">
         <div class="gallery-caption">
             <div class="caption-year">${p.year}</div>
-            <div class="caption-title">${p['title_' + currentLang] || p.title}</div>
+            <div class="caption-title">${esc(p['title_' + currentLang] || p.title)}</div>
         </div>
     `;
     item.addEventListener('click', () => openLightbox(i));
@@ -1149,6 +1156,8 @@ document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
 
 
 // ── LIGHTBOX ──
+const urlParams = new URLSearchParams(window.location.search);
+let adminMode = urlParams.has('edit');
 let currentIndex = 0;
 let currentMode = 'bw';
 
@@ -1190,6 +1199,8 @@ function openLightbox(index) {
     lb.classList.add('active');
     document.body.style.overflow = 'hidden';
     resetSlider();
+    // Focus close button for keyboard users
+    setTimeout(function(){ document.getElementById('lightboxClose').focus(); }, 100);
 }
 
 
@@ -1219,9 +1230,20 @@ document.getElementById('lbNext').addEventListener('click', () => {
 
 document.addEventListener('keydown', e => {
     if (!document.getElementById('lightbox').classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
-    if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+    if (e.key === 'Escape') { closeLightbox(); return; }
+    if (e.key === 'ArrowLeft') { document.getElementById('lbPrev').click(); return; }
+    if (e.key === 'ArrowRight') { document.getElementById('lbNext').click(); return; }
+    // Focus trap
+    if (e.key === 'Tab') {
+        const focusable = document.querySelectorAll('#lightbox button, #lightbox [tabindex]:not([tabindex="-1"]), #lightbox [contenteditable]');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    }
 });
 
 
@@ -1243,14 +1265,17 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
 });
 
 
+// Hide colorized button if no image has a color variant
+if (!photos.some(function(p){ return p.srcColor; })) {
+  var cb = document.querySelector('.mode-btn[data-mode="color"]');
+  if (cb) cb.style.display = 'none';
+}
+
 // Apply language
 applyLang(currentLang);
 
 
-// ── ADMIN MODE (ajouter ?edit à l'URL) ──
-const urlParams = new URLSearchParams(window.location.search);
-let adminMode = urlParams.has('edit');
-
+// ── ADMIN UI ──
 if (adminMode) {
     const hint = document.createElement('div');
     hint.className = 'edit-hint';
@@ -1308,7 +1333,17 @@ function setSliderPos(clientX) {
 
 divider.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
 divider.addEventListener('touchstart', e => { dragging = true; }, { passive: true });
-
+divider.addEventListener('keydown', e => {
+    const step = e.shiftKey ? 10 : 5;
+    let val = parseFloat(divider.style.left) || 50;
+    if (e.key === 'ArrowLeft') val = Math.max(2, val - step);
+    else if (e.key === 'ArrowRight') val = Math.min(98, val + step);
+    else return;
+    e.preventDefault();
+    stack.style.clipPath = 'inset(0 ' + (100 - val) + '% 0 0)';
+    divider.style.left = val + '%';
+    divider.setAttribute('aria-valuenow', val);
+});
 
 document.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clientX); });
 document.addEventListener('touchmove', e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
