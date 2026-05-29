@@ -5,6 +5,8 @@
     <title>Tanger d'Antan – Photos Historiques &amp; Patrimoine du Maroc</title>
     <meta name="description" content="Découvrez Tanger telle qu'elle était : une collection de photos d'archive restaurées, comparées avant/après. Plongez dans l'histoire et le patrimoine de la ville.">
     <meta name="author" content="Tanger d'Antan">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ucfzem.github.io/tanger/">
     <meta property="og:title" content="Tanger d'Antan – Photos Historiques &amp; Patrimoine">
     <meta property="og:description" content="Collection de photos d'archive restaurées avec slider avant/après.">
     <meta property="og:image" content="https://ucfzem.github.io/tanger/images/grand-socco-1925.jpg">
@@ -74,6 +76,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.35;
+            will-change: transform;
         }
 
 
@@ -332,27 +335,24 @@
 
 
         .gallery-grid {
-            columns: 3;
-            column-gap: 1.2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
         }
 
 
-        @media (max-width: 900px) { .gallery-grid { columns: 2; } }
-        @media (max-width: 550px) { .gallery-grid { columns: 1; } }
-        @media (min-width: 1400px) { .gallery-grid { columns: 4; } }
-        @media (min-width: 2000px) { .gallery-grid { columns: 5; column-gap: 1.5rem; } }
+        @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+        @media (max-width: 550px) { .gallery-grid { grid-template-columns: 1fr; gap: 0.8rem; } }
+        @media (min-width: 1400px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 1.3rem; } }
+        @media (min-width: 2000px) { .gallery-grid { grid-template-columns: repeat(5, 1fr); gap: 1.5rem; } }
 
 
         .gallery-item {
-            break-inside: avoid;
-            margin-bottom: 1.2rem;
             position: relative;
             overflow: hidden;
             cursor: pointer;
             border: 1px solid rgba(201, 168, 76, 0.1);
         }
-
-        @media (min-width: 2000px) { .gallery-item { margin-bottom: 1.5rem; } }
 
 
         .gallery-item::before {
@@ -841,8 +841,7 @@
 <section class="share-section" id="partager">
     <h3 class="share-title" data-i18n="share_title">Partagez ce patrimoine</h3>
     <p class="share-sub" data-i18n="share_sub">Aidez à faire connaître l'histoire de Tanger</p>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://ucfzem.github.io/tanger/" target="_blank" class="share-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://ucfzem.github.io/tanger/" target="_blank" class="share-btn" id="shareFb">
         <span data-i18n="share_btn">Partager sur Facebook</span>
     </a>
 </section>
@@ -1309,6 +1308,10 @@ document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
 });
 
 
+// ── DYNAMIC SHARE URL ──
+var shareFb = document.getElementById('shareFb');
+if (shareFb) shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href);
+
 // ── BEFORE/AFTER SLIDER ──
 const divider = document.getElementById('baDivider');
 const stack = document.getElementById('baStack');
@@ -1352,13 +1355,14 @@ document.addEventListener('touchend', () => { dragging = false; });
 
 // ── EXPORT (ajouter ?export à l'URL) ──
 if (new URLSearchParams(window.location.search).has('export')) {
-    const box = document.createElement('div');
-    box.style.cssText = 'max-width:800px;margin:2rem auto;padding:2rem;background:#1a1508;border:1px solid var(--gold-dim);font-family:monospace;font-size:0.85rem;line-height:1.8;white-space:pre-wrap';
-    box.innerHTML = '<h3 style="color:var(--gold);font-family:Cinzel;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1rem">📋 Données des photos (modifiées)</h3>';
-    photos.forEach((p, i) => {
-        box.innerHTML += `${i+1}. ${p.year} · ${p.title} · ${p.desc}\n`;
-    });
-    document.querySelector('.share-section').after(box);
+    const lines = photos.map(function(p,i){ return (i+1) + '. ' + p.year + ' · ' + p.title + ' · ' + p.desc; });
+    var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tanger-photos.txt';
+    a.textContent = '📥 Télécharger le fichier d\'export';
+    a.style.cssText = 'display:inline-block;margin:2rem auto;padding:1rem 2rem;color:var(--gold);border:1px solid var(--gold);font-family:Cinzel;letter-spacing:0.2em;text-transform:uppercase;font-size:0.7rem;text-decoration:none';
+    document.querySelector('.share-section').after(a);
 }
 </script>
 </body>
