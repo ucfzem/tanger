@@ -1127,21 +1127,21 @@ function toBW(src, callback) {
         // Seed from pixel data
         let seed = (px[0] * 9301 + px[1] * 49297 + px[2] * 233280) % 233280;
 
-        // 1. Desaturate with sepia bias + fade
+        // 1. Desaturate with sepia bias + assombrissement
         for (let i = 0; i < px.length; i += 4) {
             const g = px[i] * 0.299 + px[i+1] * 0.587 + px[i+2] * 0.114;
-            // Fade: pull toward mid-gray
-            const faded = g * 0.7 + 80;
+            // Darker, like old underexposed film
+            const darkened = g * 0.85 + 10;
             // Sepia tint: old paper brown
-            px[i]   = Math.min(255, faded * 1.05 + 15);
-            px[i+1] = Math.min(255, faded * 0.93 + 10);
-            px[i+2] = Math.min(255, faded * 0.80 + 5);
+            px[i]   = Math.min(255, darkened * 1.05 + 12);
+            px[i+1] = Math.min(255, darkened * 0.93 + 8);
+            px[i+2] = Math.min(255, darkened * 0.80 + 4);
         }
 
-        // 2. Film grain + dust
+        // 2. Film grain
         for (let i = 0; i < px.length; i += 4) {
             seed = (seed * 9301 + 49297) % 233280;
-            const noise = (seed / 233280) * 48 - 24;
+            const noise = (seed / 233280) * 32 - 16;
             px[i]   = Math.max(0, Math.min(255, px[i]   + noise));
             px[i+1] = Math.max(0, Math.min(255, px[i+1] + noise));
             px[i+2] = Math.max(0, Math.min(255, px[i+2] + noise));
@@ -1179,7 +1179,7 @@ function toBW(src, callback) {
             for (let x = 0; x < w; x++) {
                 const i = (y * w + x) * 4;
                 const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) / maxDist;
-                const vig = 1 - dist * dist * 0.45;
+                const vig = 1 - dist * dist * 0.6;
                 px[i]   = Math.max(0, Math.min(255, px[i]   * vig));
                 px[i+1] = Math.max(0, Math.min(255, px[i+1] * vig));
                 px[i+2] = Math.max(0, Math.min(255, px[i+2] * vig));
