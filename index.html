@@ -1111,22 +1111,83 @@ let photos = loadPhotos();
 // ── ESCAPE HTML ──
 function esc(str) { return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]; }); }
 
-// ── GÉNÉRER N&B DEPUIS UNE IMAGE COULEUR ──
+// ── GÉNÉRER N&B VIEILLI (type photo abîmée) ──
 function toBW(src, callback) {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = () => {
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
         const c = document.createElement('canvas');
-        c.width = img.naturalWidth; c.height = img.naturalHeight;
+        c.width = w; c.height = h;
         const ctx = c.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        const d = ctx.getImageData(0, 0, c.width, c.height);
-        for (let i = 0; i < d.data.length; i += 4) {
-            const g = d.data[i] * 0.299 + d.data[i+1] * 0.587 + d.data[i+2] * 0.114;
-            d.data[i] = d.data[i+1] = d.data[i+2] = g;
+        const d = ctx.getImageData(0, 0, w, h);
+        const px = d.data;
+        // Seed from pixel data
+        let seed = (px[0] * 9301 + px[1] * 49297 + px[2] * 233280) % 233280;
+
+        // 1. Desaturate with sepia bias + fade
+        for (let i = 0; i < px.length; i += 4) {
+            const g = px[i] * 0.299 + px[i+1] * 0.587 + px[i+2] * 0.114;
+            // Fade: pull toward mid-gray
+            const faded = g * 0.7 + 80;
+            // Sepia tint: old paper brown
+            px[i]   = Math.min(255, faded * 1.05 + 15);
+            px[i+1] = Math.min(255, faded * 0.93 + 10);
+            px[i+2] = Math.min(255, faded * 0.80 + 5);
         }
+
+        // 2. Film grain + dust
+        for (let i = 0; i < px.length; i += 4) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const noise = (seed / 233280) * 48 - 24;
+            px[i]   = Math.max(0, Math.min(255, px[i]   + noise));
+            px[i+1] = Math.max(0, Math.min(255, px[i+1] + noise));
+            px[i+2] = Math.max(0, Math.min(255, px[i+2] + noise));
+        }
+
+        // 3. Random dust spots / scratches
+        const numSpots = Math.floor((w * h) / 60000) + 4;
+        for (let s = 0; s < numSpots; s++) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const sx = Math.floor((seed / 233280) * w);
+            seed = (seed * 9301 + 49297) % 233280;
+            const sy = Math.floor((seed / 233280) * h);
+            seed = (seed * 9301 + 49297) % 233280;
+            const radius = Math.floor((seed / 233280) * 12) + 2;
+            const bright = (seed / 233280) > 0.5;
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dx = -radius; dx <= radius; dx++) {
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > radius) continue;
+                    const px2 = ((sy + dy) * w + (sx + dx)) * 4;
+                    if (px2 < 0 || px2 >= px.length - 3) continue;
+                    const falloff = 1 - dist / radius;
+                    const amt = falloff * (bright ? 35 : -30);
+                    px[px2]   = Math.max(0, Math.min(255, px[px2]   + amt));
+                    px[px2+1] = Math.max(0, Math.min(255, px[px2+1] + amt));
+                    px[px2+2] = Math.max(0, Math.min(255, px[px2+2] + amt));
+                }
+            }
+        }
+
+        // 4. Vignette
+        const cx = w / 2, cy = h / 2;
+        const maxDist = Math.sqrt(cx * cx + cy * cy);
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                const i = (y * w + x) * 4;
+                const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) / maxDist;
+                const vig = 1 - dist * dist * 0.45;
+                px[i]   = Math.max(0, Math.min(255, px[i]   * vig));
+                px[i+1] = Math.max(0, Math.min(255, px[i+1] * vig));
+                px[i+2] = Math.max(0, Math.min(255, px[i+2] * vig));
+            }
+        }
+
         ctx.putImageData(d, 0, 0);
-        callback(c.toDataURL('image/jpeg', 0.85));
+        callback(c.toDataURL('image/jpeg', 0.7));
     };
     img.onerror = () => callback('');
     img.src = src;
