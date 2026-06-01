@@ -783,6 +783,86 @@
             color: var(--gold-dim);
             margin-top: 0.3rem;
         }
+
+        /* ── MUSIC PLAYER ── */
+        .music-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            padding: 2rem;
+        }
+        .music-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .music-player {
+            background: var(--surface);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .music-info {
+            margin-bottom: 1rem;
+        }
+        .music-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+        .music-artist {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            color: var(--gold-dim);
+            margin-top: 0.2rem;
+        }
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .music-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            font-size: 1.2rem;
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .music-btn:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+        .music-progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .music-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--dark3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .music-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .music-time {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            color: var(--gold-dim);
+        }
     </style>
 </head>
 <body>
@@ -810,6 +890,7 @@
     <a href="#" class="nav-brand" data-i18n="brand_name">Tanger d'Antan</a>
     <ul class="nav-links">
         <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
+        <li><a href="#musique" data-i18n="nav_music">Musique</a></li>
         <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
     </ul>
     <div class="lang-switcher">
@@ -835,6 +916,37 @@
     </div>
 </section>
 
+
+<!-- MUSIQUE -->
+<section class="music-section" id="musique">
+    <div class="section-header">
+        <span class="section-label">Ambiance Sonore</span>
+        <h2 class="section-title">La Bande <em>Sonore</em></h2>
+        <div class="gold-line"></div>
+    </div>
+    <div class="music-container">
+        <div class="music-player" id="musicPlayer">
+            <div class="music-info">
+                <div class="music-title" id="musicTitle">Moon Over Fez</div>
+                <div class="music-artist" id="musicArtist">Djovan</div>
+            </div>
+            <div class="music-controls">
+                <button class="music-btn" id="playBtn" aria-label="Play">▶</button>
+                <button class="music-btn" id="prevBtn" aria-label="Previous">⏮</button>
+                <button class="music-btn" id="nextBtn" aria-label="Next">⏭</button>
+            </div>
+            <div class="music-progress-container">
+                <div class="music-progress" id="musicProgress">
+                    <div class="music-progress-bar" id="musicProgressBar"></div>
+                </div>
+                <div class="music-time">
+                    <span id="musicCurrent">0:00</span>
+                    <span id="musicDuration">0:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- SHARE -->
 <section class="share-section" id="partager">
@@ -896,6 +1008,7 @@ const i18n = {
         hero_desc: "Des siècles d'histoire gravés dans les pierres et les visages de la cité du Détroit",
         scroll_hint: "Découvrir",
         nav_gallery: "Galerie",
+        nav_music: "Musique",
         nav_share: "Partager",
         section_label: "Collection",
         section_title: "La Galerie <em>Complète</em>",
@@ -920,6 +1033,7 @@ const i18n = {
         hero_desc: "Centuries of history etched in the stones and faces of the City of the Strait",
         scroll_hint: "Discover",
         nav_gallery: "Gallery",
+        nav_music: "Music",
         nav_share: "Share",
         section_label: "Collection",
         section_title: "The <em>Complete</em> Gallery",
@@ -944,6 +1058,7 @@ const i18n = {
         hero_desc: "Siglos de historia grabados en las piedras y los rostros de la Ciudad del Estrecho",
         scroll_hint: "Descubrir",
         nav_gallery: "Galería",
+        nav_music: "Música",
         nav_share: "Compartir",
         section_label: "Colección",
         section_title: "La Galería <em>Completa</em>",
@@ -968,6 +1083,7 @@ const i18n = {
         hero_desc: "قرون من التاريخ منقوشة في حجارة ووجوه مدينة المضيق",
         scroll_hint: "اكتشف",
         nav_gallery: "معرض",
+        nav_music: "موسيقى",
         nav_share: "مشاركة",
         section_label: "مجموعة",
         section_title: "المعرض <em>الكامل</em>",
@@ -1458,6 +1574,78 @@ document.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clien
 document.addEventListener('touchmove', e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
 document.addEventListener('mouseup', () => { dragging = false; });
 document.addEventListener('touchend', () => { dragging = false; });
+
+// ── MUSIC PLAYER ──
+const songs = [
+    { title: 'Moon Over Fez', artist: 'Djovan', src: 'music/djovan-moon-over-fez-422839.mp3' },
+    { title: 'Lost in Fez', artist: 'Djovan', src: 'music/djovan-lost-in-fez-258787.mp3' }
+];
+let currentSong = 0;
+let audio = null;
+
+function loadSong(index) {
+    const s = songs[index];
+    document.getElementById('musicTitle').textContent = s.title;
+    document.getElementById('musicArtist').textContent = s.artist;
+    if (audio) { audio.pause(); audio = null; }
+    audio = new Audio(s.src);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', () => {
+        document.getElementById('musicDuration').textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('ended', nextSong);
+}
+
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function updateProgress() {
+    if (!audio || !audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('musicProgressBar').style.width = pct + '%';
+    document.getElementById('musicCurrent').textContent = formatTime(audio.currentTime);
+}
+
+function playSong() {
+    if (!audio) loadSong(currentSong);
+    if (audio.paused) {
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+    } else {
+        audio.pause();
+        document.getElementById('playBtn').textContent = '▶';
+    }
+}
+
+function prevSong() {
+    currentSong = (currentSong - 1 + songs.length) % songs.length;
+    loadSong(currentSong);
+    audio.play();
+    document.getElementById('playBtn').textContent = '⏸';
+}
+
+function nextSong() {
+    currentSong = (currentSong + 1) % songs.length;
+    loadSong(currentSong);
+    audio.play();
+    document.getElementById('playBtn').textContent = '⏸';
+}
+
+document.getElementById('playBtn').addEventListener('click', playSong);
+document.getElementById('prevBtn').addEventListener('click', prevSong);
+document.getElementById('nextBtn').addEventListener('click', nextSong);
+
+document.getElementById('musicProgress').addEventListener('click', (e) => {
+    if (!audio || !audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+});
+
+loadSong(0);
 
 // ── EXPORT (ajouter ?export à l'URL) ──
 if (new URLSearchParams(window.location.search).has('export')) {
