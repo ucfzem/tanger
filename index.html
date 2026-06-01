@@ -1166,8 +1166,8 @@ function applyLang(lang) {
         }
     }
 
-    // Update music player song title
-    if (typeof currentSong !== 'undefined') {
+    // Update music player song title (if loaded)
+    if (window._musicReady && typeof songs !== 'undefined') {
         const s = songs[currentSong];
         const tk = 'song' + (currentSong + 1) + '_title';
         const ak = 'song' + (currentSong + 1) + '_artist';
@@ -1680,6 +1680,15 @@ document.getElementById('musicProgress').addEventListener('click', (e) => {
 });
 
 loadSong(0);
+window._musicReady = true;
+// Update song title for current language
+if (typeof i18n !== 'undefined' && i18n[currentLang]) {
+    const s = songs[0];
+    const tk = 'song1_title';
+    const ak = 'song1_artist';
+    document.getElementById('musicTitle').textContent = i18n[currentLang][tk] || s.title;
+    document.getElementById('musicArtist').textContent = i18n[currentLang][ak] || s.artist;
+}
 
 // ── EXPORT (ajouter ?export à l'URL) ──
 if (new URLSearchParams(window.location.search).has('export')) {
