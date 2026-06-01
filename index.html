@@ -920,15 +920,15 @@
 <!-- MUSIQUE -->
 <section class="music-section" id="musique">
     <div class="section-header">
-        <span class="section-label">Ambiance Sonore</span>
-        <h2 class="section-title">La Bande <em>Sonore</em></h2>
+        <span class="section-label" data-i18n="music_label">Ambiance Sonore</span>
+        <h2 class="section-title" data-i18n="music_title">La Bande <em>Sonore</em></h2>
         <div class="gold-line"></div>
     </div>
     <div class="music-container">
         <div class="music-player" id="musicPlayer">
             <div class="music-info">
-                <div class="music-title" id="musicTitle">Moon Over Fez</div>
-                <div class="music-artist" id="musicArtist">Djovan</div>
+                <div class="music-title" id="musicTitle"></div>
+                <div class="music-artist" id="musicArtist"></div>
             </div>
             <div class="music-controls">
                 <button class="music-btn" id="playBtn" aria-label="Play">▶</button>
@@ -1019,6 +1019,12 @@ const i18n = {
         close: "✕ Fermer",
         prev: "← Précédente",
         next: "Suivante →",
+        music_label: "Ambiance Sonore",
+        music_title: "La Bande <em>Sonore</em>",
+        song1_title: "Moon Over Fez",
+        song1_artist: "Djovan",
+        song2_title: "Lost in Fez",
+        song2_artist: "Djovan",
         share_title: "Partagez ce patrimoine",
         share_sub: "Aidez à faire connaître l'histoire de Tanger",
         share_btn: "Partager sur Facebook",
@@ -1044,6 +1050,12 @@ const i18n = {
         close: "✕ Close",
         prev: "← Previous",
         next: "Next →",
+        music_label: "Soundscape",
+        music_title: "The <em>Soundtrack</em>",
+        song1_title: "Moon Over Fez",
+        song1_artist: "Djovan",
+        song2_title: "Lost in Fez",
+        song2_artist: "Djovan",
         share_title: "Share this heritage",
         share_sub: "Help spread the history of Tangier",
         share_btn: "Share on Facebook",
@@ -1069,6 +1081,12 @@ const i18n = {
         close: "✕ Cerrar",
         prev: "← Anterior",
         next: "Siguiente →",
+        music_label: "Ambiente Sonoro",
+        music_title: "La Banda <em>Sonora</em>",
+        song1_title: "Moon Over Fez",
+        song1_artist: "Djovan",
+        song2_title: "Lost in Fez",
+        song2_artist: "Djovan",
         share_title: "Comparte este patrimonio",
         share_sub: "Ayuda a difundir la historia de Tánger",
         share_btn: "Compartir en Facebook",
@@ -1094,6 +1112,12 @@ const i18n = {
         close: "✕ إغلاق",
         prev: "→ السابق",
         next: "التالي ←",
+        music_label: "أجواء موسيقية",
+        music_title: "الموسيقى <em>التصويرية</em>",
+        song1_title: "Moon Over Fez",
+        song1_artist: "جوفان",
+        song2_title: "Lost in Fez",
+        song2_artist: "جوفان",
         share_title: "شارك هذا التراث",
         share_sub: "ساعد في نشر تاريخ طنجة",
         share_btn: "مشاركة على فيسبوك",
@@ -1142,6 +1166,14 @@ function applyLang(lang) {
         }
     }
 
+    // Update music player song title
+    if (typeof currentSong !== 'undefined') {
+        const s = songs[currentSong];
+        const tk = 'song' + (currentSong + 1) + '_title';
+        const ak = 'song' + (currentSong + 1) + '_artist';
+        document.getElementById('musicTitle').textContent = i18n[lang][tk] || s.title;
+        document.getElementById('musicArtist').textContent = i18n[lang][ak] || s.artist;
+    }
     localStorage.setItem('tanger_lang', lang);
 }
 
@@ -1585,8 +1617,10 @@ let audio = null;
 
 function loadSong(index) {
     const s = songs[index];
-    document.getElementById('musicTitle').textContent = s.title;
-    document.getElementById('musicArtist').textContent = s.artist;
+    const titleKey = 'song' + (index + 1) + '_title';
+    const artistKey = 'song' + (index + 1) + '_artist';
+    document.getElementById('musicTitle').textContent = i18n[currentLang][titleKey] || s.title;
+    document.getElementById('musicArtist').textContent = i18n[currentLang][artistKey] || s.artist;
     if (audio) { audio.pause(); audio = null; }
     audio = new Audio(s.src);
     audio.addEventListener('timeupdate', updateProgress);
