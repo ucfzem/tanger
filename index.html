@@ -1308,6 +1308,7 @@ function resetPhotos() {
     localStorage.removeItem('tanger_photos');
     photos = JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
     renderGallery();
+    document.querySelectorAll('.gallery-item').forEach(el => el.classList.add('visible'));
 }
 let photos = loadPhotos();
 
