@@ -740,6 +740,24 @@
         }
 
 
+        .reset-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        .reset-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201,168,76,0.05);
+        }
+
         .gallery-item {
             opacity: 0;
             transform: translateY(20px);
@@ -936,6 +954,9 @@
     <div class="gallery-grid" id="galleryGrid">
         <!-- Photos générées par JS -->
     </div>
+    <div style="text-align:center;margin-top:2rem">
+        <button onclick="resetPhotos()" class="reset-btn" data-i18n="reset_btn">↻ Réinitialiser la galerie</button>
+    </div>
 </section>
 
 
@@ -1051,7 +1072,8 @@ const i18n = {
         share_sub: "Aidez à faire connaître l'histoire de Tanger",
         share_btn: "Partager sur Facebook",
         footer_copyright: "© 2026 — Projet de préservation du patrimoine visuel de Tanger",
-        edit_hint: "✎ Mode édition — modifie le texte, Enter pour valider"
+        edit_hint: "✎ Mode édition — modifie le texte, Enter pour valider",
+        reset_btn: "↻ Réinitialiser la galerie"
     },
     en: {
         site_name: "Tangier <em>of Yesteryear</em>",
@@ -1082,7 +1104,8 @@ const i18n = {
         share_sub: "Help spread the history of Tangier",
         share_btn: "Share on Facebook",
         footer_copyright: "© 2026 — Tangier visual heritage preservation project",
-        edit_hint: "✎ Edit mode — click text to edit, Enter to save"
+        edit_hint: "✎ Edit mode — click text to edit, Enter to save",
+        reset_btn: "↻ Reset gallery"
     },
     es: {
         site_name: "Tánger <em>de Antaño</em>",
@@ -1113,7 +1136,8 @@ const i18n = {
         share_sub: "Ayuda a difundir la historia de Tánger",
         share_btn: "Compartir en Facebook",
         footer_copyright: "© 2026 — Proyecto de preservación del patrimonio visual de Tánger",
-        edit_hint: "✎ Modo edición — haz clic en el texto para editar, Enter para guardar"
+        edit_hint: "✎ Modo edición — haz clic en el texto para editar, Enter para guardar",
+        reset_btn: "↻ Restablecer galería"
     },
     ar: {
         site_name: "طنجة <em>الزمن الجميل</em>",
@@ -1144,7 +1168,8 @@ const i18n = {
         share_sub: "ساعد في نشر تاريخ طنجة",
         share_btn: "مشاركة على فيسبوك",
         footer_copyright: "© 2026 — مشروع الحفاظ على التراث البصري لطنجة",
-        edit_hint: "✎ وضع التحرير — انقر على النص للتحرير، Enter للحفظ"
+        edit_hint: "✎ وضع التحرير — انقر على النص للتحرير، Enter للحفظ",
+        reset_btn: "↻ إعادة تعيين المعرض"
     }
 };
 
