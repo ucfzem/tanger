@@ -1,6 +1,7 @@
 name = "tanger"
 main = "_worker.js"
 compatibility_date = "2026-05-01"
+account_id = "551159a931a5eb5754de241eb6ae2b7c"
 
 [assets]
 directory = "./"
