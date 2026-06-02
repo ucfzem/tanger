@@ -1262,6 +1262,9 @@ const DEFAULT_PHOTOS = [
 // ── LOAD/SAVE PHOTOS (admin edits) ──
 function loadPhotos() {
     try {
+        if (new URLSearchParams(window.location.search).has('reset')) {
+            localStorage.removeItem('tanger_photos');
+        }
         const saved = localStorage.getItem('tanger_photos');
         if (saved) {
             const p = JSON.parse(saved);
