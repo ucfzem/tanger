@@ -1440,8 +1440,10 @@ function renderGallery() {
         test.onload = () => { img.src = real; };
         test.src = real;
     });
+
+    // Observe new items for fade-in
+    document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
 }
-renderGallery();
 
 
 // ── INTERSECTION OBSERVER ──
@@ -1455,7 +1457,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 
-document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
+renderGallery();
 
 
 // ── LIGHTBOX ──
