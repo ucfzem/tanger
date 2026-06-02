@@ -1262,9 +1262,6 @@ const DEFAULT_PHOTOS = [
 // ── LOAD/SAVE PHOTOS (admin edits) ──
 function loadPhotos() {
     try {
-        if (new URLSearchParams(window.location.search).has('reset')) {
-            localStorage.removeItem('tanger_photos');
-        }
         const saved = localStorage.getItem('tanger_photos');
         if (saved) {
             const p = JSON.parse(saved);
@@ -1279,6 +1276,11 @@ function loadPhotos() {
     return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
 }
 function savePhotos() { try { localStorage.setItem('tanger_photos', JSON.stringify(photos)); } catch(e) {} }
+function resetPhotos() {
+    localStorage.removeItem('tanger_photos');
+    photos = JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
+    renderGallery();
+}
 let photos = loadPhotos();
 
 
@@ -1377,38 +1379,41 @@ function placeholder(text, w=600, h=450) {
 
 
 // ── BUILD GALLERY ──
-const grid = document.getElementById('galleryGrid');
-photos.forEach((p, i) => {
-    const heights = [280,350,300,400,260,380,320,290,370,310];
-    const h = heights[i % heights.length];
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
-    item.dataset.index = i;
-    const hasColor = !!p.srcColor;
-    item.innerHTML = `
-        <span class="before-after-badge">Avant / Après</span>
-        <img src="${placeholder(esc(p.title) + ' · ' + p.year, 600, h)}" 
-             alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="lazy"
-             onerror="this.src='${placeholder(esc(p.title), 600, h)}'"
-             data-real="${p.src}"
-             data-real-color="${p.srcColor}">
-        <div class="gallery-caption">
-            <div class="caption-year">${p.year}</div>
-            <div class="caption-title">${esc(p['title_' + currentLang] || p.title)}</div>
-        </div>
-    `;
-    item.addEventListener('click', () => openLightbox(i));
-    grid.appendChild(item);
-});
+function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    photos.forEach((p, i) => {
+        const heights = [280,350,300,400,260,380,320,290,370,310];
+        const h = heights[i % heights.length];
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.dataset.index = i;
+        const hasColor = !!p.srcColor;
+        item.innerHTML = `
+            <span class="before-after-badge">Avant / Après</span>
+            <img src="${placeholder(esc(p.title) + ' · ' + p.year, 600, h)}" 
+                 alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="lazy"
+                 onerror="this.src='${placeholder(esc(p.title), 600, h)}'"
+                 data-real="${p.src}"
+                 data-real-color="${p.srcColor}">
+            <div class="gallery-caption">
+                <div class="caption-year">${p.year}</div>
+                <div class="caption-title">${esc(p['title_' + currentLang] || p.title)}</div>
+            </div>
+        `;
+        item.addEventListener('click', () => openLightbox(i));
+        grid.appendChild(item);
+    });
 
-
-// Try to load real images
-document.querySelectorAll('.gallery-item img[data-real]').forEach(img => {
-    const real = img.dataset.real;
-    const test = new Image();
-    test.onload = () => { img.src = real; };
-    test.src = real;
-});
+    // Try to load real images
+    document.querySelectorAll('.gallery-item img[data-real]').forEach(img => {
+        const real = img.dataset.real;
+        const test = new Image();
+        test.onload = () => { img.src = real; };
+        test.src = real;
+    });
+}
+renderGallery();
 
 
 // ── INTERSECTION OBSERVER ──
@@ -1679,15 +1684,22 @@ function playSong() {
 function prevSong() {
     currentSong = (currentSong - 1 + songs.length) % songs.length;
     loadSong(currentSong);
-    audio.play();
-    document.getElementById('playBtn').textContent = '⏸';
+    audio.addEventListener('canplay', function handler() {
+        audio.removeEventListener('canplay', handler);
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+    });
 }
+
 
 function nextSong() {
     currentSong = (currentSong + 1) % songs.length;
     loadSong(currentSong);
-    audio.play();
-    document.getElementById('playBtn').textContent = '⏸';
+    audio.addEventListener('canplay', function handler() {
+        audio.removeEventListener('canplay', handler);
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+    });
 }
 
 document.getElementById('playBtn').addEventListener('click', playSong);
