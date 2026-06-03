@@ -11,6 +11,23 @@
 - Pages: https://ucfzem.github.io/tanger/
 - GitHub token must have `repo` scope; token may expire between sessions; always remove token from remote URL after push
 
+## Tanger d'Antan — Session 2026-06-03
+
+### Music
+- Replaced old music (Moon Over Fez, Lost in Fez) with 14 new tracks from OptiMised.zip (21 MB total)
+- Tracks from: Djovan, Noisy Oyster, Grand Project, Free Melody Studio, Eliza Music
+- Removed old i18n song entries (song1-4) so real titles display correctly
+- File with spaces renamed: `Noisy Oyster - Arab Appal.mp3` → `noisy-oyster-arab-appal.mp3`
+
+### Photos
+- **Puerta del Mar (id:14)**: removed `srcBefore`, now uses `toBW()` for damaged effect. COLOR image kept brightened (+25%).
+- **All 40 photos**: now use `toBW()` for the "Avant" damaged effect (grain, sepia, dust, vignette)
+- Real `images/avant/*.jpg` files removed from git, backed up in `images/avant/backup/`
+- File transfer method confirmed: user uploads zip to TmpDrop, AI downloads and integrates
+
+### Next (deferred)
+- Add 20 more photos (total 60) — same structure, same toBW() effects, same transfer method via TmpDrop
+
 ## Tanger d'Antan — Completed Work
 
 ### Slider (before/after)
