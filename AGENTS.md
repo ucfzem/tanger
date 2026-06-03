@@ -8,7 +8,8 @@
 
 ## Repo & Access
 - GitHub: https://github.com/ucfzem
-- Pages: https://ucfzem.github.io/tanger/
+- Pages: https://ucfzem.github.io/tanger/ (legacy)
+- Custom domain: https://tangerdantan.is-a.dev/ (via Cloudflare Workers CNAME)
 - GitHub token must have `repo` scope; token may expire between sessions; always remove token from remote URL after push
 
 ## Tanger d'Antan — Session 2026-06-03
