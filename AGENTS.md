@@ -20,14 +20,20 @@
 - Removed old i18n song entries (song1-4) so real titles display correctly
 - File with spaces renamed: `Noisy Oyster - Arab Appal.mp3` → `noisy-oyster-arab-appal.mp3`
 
-### Photos
+### Photos (Batch 1)
 - **Puerta del Mar (id:14)**: removed `srcBefore`, now uses `toBW()` for damaged effect. COLOR image kept brightened (+25%).
 - **All 40 photos**: now use `toBW()` for the "Avant" damaged effect (grain, sepia, dust, vignette)
 - Real `images/avant/*.jpg` files removed from git, backed up in `images/avant/backup/`
 - File transfer method confirmed: user uploads zip to TmpDrop, AI downloads and integrates
 
-### Next (deferred)
-- Add 20 more photos (total 60) — same structure, same toBW() effects, same transfer method via TmpDrop
+## Tanger d'Antan — Session 2026-06-04
+
+### Photos (Batch 2 — +20, total 60)
+- Added 20 new photos (ids 41-60) from zip file `PICS TANGDANT.zip` via TmpDrop (`?d=npqhyori5ucixfeb`)
+- Converted PNGs to JPG, compressed at quality 80
+- Followed same data structure with multilingual titles/descriptions (fr/en/es/ar)
+- `toBW()` applies the "Avant" damaged effect automatically (no separate `srcBefore` needed)
+- Updated sitemap.xml with 20 new image entries
 
 ## Tanger d'Antan — Completed Work
 
