@@ -9,6 +9,9 @@ export default {
       body: request.body
     });
     proxyReq.headers.delete('Host');
-    return fetch(proxyReq);
+    const response = await fetch(proxyReq);
+    const headers = new Headers(response.headers);
+    headers.set('cache-control', 'no-cache, no-store, must-revalidate');
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
   }
 };
