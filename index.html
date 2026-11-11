@@ -972,9 +972,10 @@
         html[dir="rtl"] .ba-label.avant{left:auto;right:1rem}
         html[dir="rtl"] .ba-label.apres{right:auto;left:1rem}
 
-        /* Skip link */
-        .skip-link{position:absolute;left:-9999px;top:0;z-index:10001;background:var(--gold);color:var(--black);padding:.6rem 1rem;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none}
-        .skip-link:focus{left:1rem;top:1rem}
+        /* Skip link — fixed off-canvas; absolute left:-9999px would create 9999px RTL overflow */
+        .skip-link{position:fixed;left:1rem;top:-100px;z-index:10001;background:var(--gold);color:var(--black);padding:.6rem 1rem;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none}
+        html[dir="rtl"] .skip-link{left:auto;right:1rem}
+        .skip-link:focus{top:1rem}
     </style>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a30fd89985dc4555b08862b0d83bb975"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
