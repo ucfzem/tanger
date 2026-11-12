@@ -495,8 +495,7 @@ a{color:var(--gold)} a:hover{color:var(--gold-light)}
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(10, 8, 5, 0.92);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 8, 5, 0.98);
             border-bottom: 1px solid rgba(201, 168, 76, 0.15);
             padding: 1.2rem 3rem;
             display: flex;
@@ -715,7 +714,32 @@ html.low-end .conclusion{background:var(--dark2)}
 html.low-end .book-card{background:var(--dark3)}
 footer{background:none}
 footer .logo{display:block}
+
+/* --- old phones / Smart TV: lower GPU and paint cost --- */
+html.tv-mode body::before,html.lite-mode body::before{display:none!important}
+html.tv-mode nav,html.lite-mode nav{backdrop-filter:none!important;background:rgba(10,8,5,.99)}
+html.tv-mode figure img,html.lite-mode figure img{filter:none!important}
+html.tv-mode body,html.lite-mode body{background-image:none!important}
+html.tv-mode .hero,html.lite-mode .hero{background-image:radial-gradient(ellipse at 50% 60%,#2a1f08 0%,#110e06 45%,#0a0805 100%)!important}
+html.tv-mode *,html.lite-mode *{animation:none!important;transition:none!important;box-shadow:none!important}
+html.tv-mode .reveal,html.tv-mode .reveal.in,html.lite-mode .reveal,html.lite-mode .reveal.in{opacity:1!important;transform:none!important}
+html.tv-mode a:focus,html.tv-mode button:focus,html.tv-mode [tabindex]:focus,html.lite-mode a:focus,html.lite-mode button:focus,html.lite-mode [tabindex]:focus{outline:3px solid var(--gold)!important;outline-offset:3px}
+html.tv-mode .toc-grid a:focus,html.lite-mode .toc-grid a:focus{background:rgba(201,168,76,.18)!important}
 </style>
+<script>
+(function(){
+  try{
+    var root=document.documentElement;
+    var ua=navigator.userAgent||"";
+    var tv=/Smart-?TV|SMART-TV|Tizen|Web0S|webOS|HbbTV|Roku|AppleTV|GoogleTV|Android TV|BRAVIA|NetCast|Viera|VIDAA|Hisense|Philips TV/i.test(ua) || !!(navigator.userAgentData && navigator.userAgentData.platform==="TV");
+    var mem=navigator.deviceMemory||4;
+    var cores=navigator.hardwareConcurrency||4;
+    var saveData=!!(navigator.connection && navigator.connection.saveData);
+    if(tv) root.classList.add("tv-mode");
+    if(tv || mem<=2 || cores<=2 || saveData) root.classList.add("lite-mode");
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -2274,15 +2298,95 @@ Object.assign(T.ar,{"brand_name":"طنجة الزمن الجميل","nav_history
 /* ============ LANGUAGE SWITCHING ============ */
 const SUPPORTED = ['ar','en','fr','es'];
 const html = document.documentElement;
+const tvMode = html.classList.contains('tv-mode');
 
 function detectLowEnd(){
   try{
     const mem = navigator.deviceMemory || 4;
     const cores = navigator.hardwareConcurrency || 4;
-    if(mem < 2 || cores < 3) return true;
-    if(/SmartTV|Tizen|webOS|HbbTV|Roku|AppleTV/i.test(navigator.userAgent)) return false;
+    if(mem <= 2 || cores <= 2) return true;
+    if(navigator.connection && navigator.connection.saveData) return true;
   }catch(e){}
   return false;
+}
+
+function setupTvNavigation(){
+  if(!tvMode) return;
+  const selector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+  function focusables(){
+    const out = [];
+    const nodes = document.querySelectorAll(selector);
+    for(let i=0;i<nodes.length;i++){
+      const el = nodes[i];
+      if(el.offsetParent === null) continue;
+      const r = el.getBoundingClientRect();
+      if(r.width > 0 && r.height > 0) out.push(el);
+    }
+    return out;
+  }
+
+  function center(el){
+    const r = el.getBoundingClientRect();
+    return {x:r.left + r.width/2, y:r.top + r.height/2};
+  }
+
+  function findNext(current, key, list){
+    const from = center(current);
+    let best = null;
+    let bestScore = Infinity;
+    for(let i=0;i<list.length;i++){
+      const el = list[i];
+      if(el === current) continue;
+      const to = center(el);
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      let primary = 0;
+      let secondary = 0;
+      if(key === 'ArrowDown'){ if(dy <= 8) continue; primary = dy; secondary = Math.abs(dx); }
+      else if(key === 'ArrowUp'){ if(dy >= -8) continue; primary = -dy; secondary = Math.abs(dx); }
+      else if(key === 'ArrowRight'){ if(dx <= 8) continue; primary = dx; secondary = Math.abs(dy); }
+      else if(key === 'ArrowLeft'){ if(dx >= -8) continue; primary = -dx; secondary = Math.abs(dy); }
+      else continue;
+      const score = primary + secondary * 2;
+      if(score < bestScore){ bestScore = score; best = el; }
+    }
+    return best;
+  }
+
+  function revealForTv(el){
+    const nav = document.querySelector('body > nav');
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if(r.top < navH + 12){
+      window.scrollTo({top: Math.max(0, window.scrollY + r.top - navH - 12), behavior:'auto'});
+    } else if(r.bottom > vh - 12){
+      window.scrollTo({top: window.scrollY + r.bottom - vh + 12, behavior:'auto'});
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const keys = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'];
+    if(keys.indexOf(e.key) === -1) return;
+    if(e.defaultPrevented) return;
+    if(e.target && e.target.matches && e.target.matches('input,textarea,select,[contenteditable="true"]')) return;
+    const list = focusables();
+    if(!list.length) return;
+    const current = document.activeElement;
+    if(!current || current === document.body || list.indexOf(current) === -1){
+      e.preventDefault();
+      list[0].focus();
+      revealForTv(list[0]);
+      return;
+    }
+    const next = findNext(current, e.key, list);
+    if(next){
+      e.preventDefault();
+      try{ next.focus({preventScroll:true}); }catch(err){ next.focus(); }
+      revealForTv(next);
+    }
+  });
 }
 
 const stickyNav = document.querySelector('body > nav');
@@ -2343,6 +2447,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 
 /* ============ LOW-END DEVICE ============ */
 if(detectLowEnd()) html.classList.add('low-end');
+setupTvNavigation();
 
 /* ============ SCROLL REVEAL ============ */
 if('IntersectionObserver' in window && !html.classList.contains('low-end')){
