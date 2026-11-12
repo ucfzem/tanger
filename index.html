@@ -89,7 +89,6 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.35;
-            will-change: transform;
         }
 
 
@@ -1756,11 +1755,9 @@ function renderGallery() {
         const hasColor = !!p.srcColor;
         item.innerHTML = `
             <span class="before-after-badge">${esc((i18n[currentLang] && i18n[currentLang].before_after_badge) || 'Avant / Après')}</span>
-            <img src="${placeholder(esc(p.title) + ' · ' + p.year, 600, h)}" 
-                 alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="lazy" decoding="async"
-                 onerror="this.src='${placeholder(esc(p.title), 600, h)}'"
-                 data-real="${p.src}"
-                 data-real-color="${p.srcColor}">
+            <img src="${p.src}"
+                 alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="eager" decoding="async"
+                 onerror="this.onerror=null;this.src='${placeholder(esc(p.title), 600, h)}'">
             <div class="gallery-caption">
                 <div class="caption-year">${p.year}</div>
                 <div class="caption-title">${esc(p['title_' + currentLang] || p.title)}</div>
@@ -1768,14 +1765,6 @@ function renderGallery() {
         `;
         item.addEventListener('click', () => openLightbox(i));
         grid.appendChild(item);
-    });
-
-    // Try to load real images
-    document.querySelectorAll('.gallery-item img[data-real]').forEach(img => {
-        const real = img.dataset.real;
-        const test = new Image();
-        test.onload = () => { img.src = real; };
-        test.src = real;
     });
 
 }
