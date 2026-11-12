@@ -460,6 +460,23 @@
         }
 
 
+        .history-more {
+            display: block;
+            width: fit-content;
+            margin: 3rem auto 0;
+            padding: 0.9rem 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            border: 1px solid rgba(201, 168, 76, 0.35);
+            transition: all 0.3s;
+        }
+        .history-more:hover { background: rgba(201, 168, 76, 0.12); border-color: var(--gold); }
+        html[lang="ar"] .history-more { font-family: 'Amiri', 'Geeza Pro', serif; letter-spacing: 0; font-size: 1rem; }
+
         /* ── GALLERY ── */
         .gallery-section {
             padding: 2rem 2rem 6rem;
@@ -1090,7 +1107,7 @@
 <nav>
     <a href="#" class="nav-brand" data-i18n="brand_name">Tanger d'Antan</a>
     <ul class="nav-links">
-        <li><a href="#histoire" data-i18n="nav_history">Histoire</a></li>
+        <li><a href="histoire/" data-i18n="nav_history">Histoire</a></li>
         <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
         <li><a href="#musique" data-i18n="nav_music">Musique</a></li>
         <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
@@ -1134,6 +1151,7 @@
                 <p data-i18n="history_t4">Le patrimoine photographique continue de raconter la mémoire de la cité.</p>
             </div>
         </div>
+        <a class="history-more" href="histoire/" data-i18n="history_more">Lire l'histoire complète →</a>
     </div>
 </section>
 
@@ -1262,6 +1280,7 @@ const i18n = {
         history_t3: "Indépendance du Maroc ; Tanger réintègre le royaume.",
         history_t4: "Le patrimoine photographique continue de raconter la mémoire de la cité.",
         history_today: "Aujourd'hui",
+        history_more: "Lire l'histoire complète →",
         section_label: "Collection",
         section_title: "La Galerie <em>Complète</em>",
         before_label: "Avant",
@@ -1309,6 +1328,7 @@ const i18n = {
         history_t3: "Morocco's independence; Tangier rejoins the kingdom.",
         history_t4: "The photographic heritage keeps telling the story of the city.",
         history_today: "Today",
+        history_more: "Read the full history →",
         section_label: "Collection",
         section_title: "The <em>Complete</em> Gallery",
         before_label: "Before",
@@ -1356,6 +1376,7 @@ const i18n = {
         history_t3: "Independencia de Marruecos; Tánger se reintegra en el reino.",
         history_t4: "El patrimonio fotográfico sigue contando la memoria de la ciudad.",
         history_today: "Hoy",
+        history_more: "Leer la historia completa →",
         section_label: "Colección",
         section_title: "La Galería <em>Completa</em>",
         before_label: "Antes",
@@ -1403,6 +1424,7 @@ const i18n = {
         history_t3: "استقلال المغرب؛ طنجة تعود إلى المملكة.",
         history_t4: "التراث الفوتوغرافي يواصل سرد ذاكرة المدينة.",
         history_today: "اليوم",
+        history_more: "اقرأ التاريخ كاملاً ←",
         section_label: "مجموعة",
         section_title: "المعرض <em>الكامل</em>",
         before_label: "قبل",

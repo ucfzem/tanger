@@ -167,4 +167,10 @@
       <image:title>Club de Tir El Ghandouri 1950</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://ucfzem.github.io/tanger/histoire/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
