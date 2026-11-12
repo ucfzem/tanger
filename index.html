@@ -325,6 +325,8 @@
         html[lang="ar"] .hero-desc { font-family: 'Cormorant Garamond', serif; }
         html[lang="ar"] footer p { font-family: 'Cormorant Garamond', serif; }
         html[lang="ar"] .lightbox-year { font-family: 'Cinzel', serif; }
+        html[lang="ar"] .history-intro { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; font-style: normal; }
+        html[lang="ar"] .history-year { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; letter-spacing: 0; }
 
 
         /* ── SECTION TITLES ── */
@@ -356,6 +358,97 @@
         .section-title em {
             font-style: italic;
             color: var(--gold);
+        }
+
+
+        /* ── HISTORY ── */
+        .history-section {
+            padding: 2rem 2rem 6rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+        .history-section .section-header {
+            padding: 2rem 0 3rem;
+        }
+
+
+        .history-content {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+
+        .history-intro {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+            font-style: italic;
+            color: var(--gold-light);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+
+        .history-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--cream-dim);
+            margin-bottom: 1.3rem;
+        }
+
+
+        .history-timeline {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            padding-top: 2.5rem;
+        }
+
+
+        .history-item {
+            border-left: 1px solid rgba(201, 168, 76, 0.2);
+            padding-left: 1rem;
+        }
+
+
+        .history-year {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+
+        .history-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--cream-dim);
+            margin-bottom: 0;
+        }
+
+
+        @media (max-width: 900px) {
+            .history-timeline { grid-template-columns: repeat(2, 1fr); }
+        }
+
+
+        @media (max-width: 600px) {
+            .history-section { padding: 2rem 1.2rem 4rem; }
+            .history-timeline { grid-template-columns: 1fr; gap: 1rem; }
+        }
+
+
+        html[dir="rtl"] .history-item {
+            border-left: none;
+            border-right: 1px solid rgba(201, 168, 76, 0.2);
+            padding-left: 0;
+            padding-right: 1rem;
         }
 
 
@@ -981,7 +1074,7 @@
 </head>
 <body>
 
-<a class="skip-link" href="#galerie" data-i18n="skip_link">Aller au contenu</a>
+<a class="skip-link" href="#histoire" data-i18n="skip_link">Aller au contenu</a>
 
 <!-- HERO -->
 <section class="hero">
@@ -1004,6 +1097,7 @@
 <nav>
     <a href="#" class="nav-brand" data-i18n="brand_name">Tanger d'Antan</a>
     <ul class="nav-links">
+        <li><a href="#histoire" data-i18n="nav_history">Histoire</a></li>
         <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
         <li><a href="#musique" data-i18n="nav_music">Musique</a></li>
         <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
@@ -1015,6 +1109,40 @@
         <button class="lang-btn" data-lang="ar" aria-pressed="false">AR</button>
     </div>
 </nav>
+
+
+<!-- HISTORY -->
+<section class="history-section" id="histoire">
+    <div class="section-header">
+        <span class="section-label" data-i18n="history_label">Mémoire</span>
+        <h2 class="section-title" data-i18n="history_title">Histoire de <em>Tanger</em></h2>
+        <div class="gold-line"></div>
+    </div>
+    <div class="history-content">
+        <p class="history-intro" data-i18n="history_intro">Au-delà des images, la cité du Détroit raconte des siècles de rencontres entre l'Europe et l'Afrique.</p>
+        <p data-i18n="history_p1">Fondée sur les rives du Détroit de Gibraltar, la cité antique de Tingis fut tour à tour phénicienne, carthaginoise, romaine puis arabe. Sa position stratégique entre deux continents et deux mers en fit très tôt un carrefour de commerce, de langues et de cultures.</p>
+        <p data-i18n="history_p2">En 1923, Tanger devient une zone internationale administrée par plusieurs puissances. Pendant plus de trois décennies, la ville attire écrivains, musiciens, peintres et voyageurs. Les cafés de la médina, le port et les grands boulevards deviennent les décors d'une vie cosmopolite unique au Maroc.</p>
+        <p data-i18n="history_p3">Après l'indépendance en 1956, Tanger retrouve sa place dans le royaume tout en conservant la mémoire de cette époque. Les photographies de ce site sont autant de fenêtres ouvertes sur ce passé : elles préservent les visages, les rues et les lieux d'une ville en perpétuelle transformation.</p>
+        <div class="history-timeline">
+            <div class="history-item">
+                <span class="history-year">1923</span>
+                <p data-i18n="history_t1">Tanger devient zone internationale.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year">1940–1950</span>
+                <p data-i18n="history_t2">Années cosmopolites : écrivains, artistes et musiciens se croisent dans la ville.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year">1956</span>
+                <p data-i18n="history_t3">Indépendance du Maroc ; Tanger réintègre le royaume.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year" data-i18n="history_today">Aujourd'hui</span>
+                <p data-i18n="history_t4">Le patrimoine photographique continue de raconter la mémoire de la cité.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <!-- GALLERY -->
@@ -1116,6 +1244,7 @@
 
 
 <script>
+console.log("Section 2 chargée !");
 // ── TRANSLATIONS ──
 const i18n = {
     fr: {
@@ -1128,6 +1257,18 @@ const i18n = {
         nav_gallery: "Galerie",
         nav_music: "Musique",
         nav_share: "Partager",
+        nav_history: "Histoire",
+        history_label: "Mémoire",
+        history_title: "Histoire de <em>Tanger</em>",
+        history_intro: "Au-delà des images, la cité du Détroit raconte des siècles de rencontres entre l'Europe et l'Afrique.",
+        history_p1: "Fondée sur les rives du Détroit de Gibraltar, la cité antique de Tingis fut tour à tour phénicienne, carthaginoise, romaine puis arabe. Sa position stratégique entre deux continents et deux mers en fit très tôt un carrefour de commerce, de langues et de cultures.",
+        history_p2: "En 1923, Tanger devient une zone internationale administrée par plusieurs puissances. Pendant plus de trois décennies, la ville attire écrivains, musiciens, peintres et voyageurs. Les cafés de la médina, le port et les grands boulevards deviennent les décors d'une vie cosmopolite unique au Maroc.",
+        history_p3: "Après l'indépendance en 1956, Tanger retrouve sa place dans le royaume tout en conservant la mémoire de cette époque. Les photographies de ce site sont autant de fenêtres ouvertes sur ce passé : elles préservent les visages, les rues et les lieux d'une ville en perpétuelle transformation.",
+        history_t1: "Tanger devient zone internationale.",
+        history_t2: "Années cosmopolites : écrivains, artistes et musiciens se croisent dans la ville.",
+        history_t3: "Indépendance du Maroc ; Tanger réintègre le royaume.",
+        history_t4: "Le patrimoine photographique continue de raconter la mémoire de la cité.",
+        history_today: "Aujourd'hui",
         section_label: "Collection",
         section_title: "La Galerie <em>Complète</em>",
         before_label: "Avant",
@@ -1163,6 +1304,18 @@ const i18n = {
         nav_gallery: "Gallery",
         nav_music: "Music",
         nav_share: "Share",
+        nav_history: "History",
+        history_label: "Memory",
+        history_title: "History of <em>Tangier</em>",
+        history_intro: "Beyond the images, the City of the Strait tells centuries of encounters between Europe and Africa.",
+        history_p1: "Founded on the shores of the Strait of Gibraltar, the ancient city of Tingis was successively Phoenician, Carthaginian, Roman and Arab. Its strategic position between two continents and two seas made it an early crossroads of trade, languages and cultures.",
+        history_p2: "In 1923, Tangier became an international zone administered by several powers. For more than three decades, the city attracted writers, musicians, painters and travellers. The cafés of the medina, the port and the grand boulevards became the setting for a cosmopolitan life unique in Morocco.",
+        history_p3: "After independence in 1956, Tangier took its place within the kingdom while preserving the memory of that era. The photographs on this site are windows onto that past: they preserve the faces, streets and places of a city in constant transformation.",
+        history_t1: "Tangier becomes an international zone.",
+        history_t2: "Cosmopolitan years: writers, artists and musicians cross paths in the city.",
+        history_t3: "Morocco's independence; Tangier rejoins the kingdom.",
+        history_t4: "The photographic heritage keeps telling the story of the city.",
+        history_today: "Today",
         section_label: "Collection",
         section_title: "The <em>Complete</em> Gallery",
         before_label: "Before",
@@ -1198,6 +1351,18 @@ const i18n = {
         nav_gallery: "Galería",
         nav_music: "Música",
         nav_share: "Compartir",
+        nav_history: "Historia",
+        history_label: "Memoria",
+        history_title: "Historia de <em>Tánger</em>",
+        history_intro: "Más allá de las imágenes, la Ciudad del Estrecho cuenta siglos de encuentros entre Europa y África.",
+        history_p1: "Fundada a orillas del Estrecho de Gibraltar, la antigua ciudad de Tingis fue sucesivamente fenicia, cartaginesa, romana y árabe. Su posición estratégica entre dos continentes y dos mares la convirtió muy pronto en un cruce de comercio, lenguas y culturas.",
+        history_p2: "En 1923, Tánger se convierte en una zona internacional administrada por varias potencias. Durante más de tres décadas, la ciudad atrae a escritores, músicos, pintores y viajeros. Los cafés de la medina, el puerto y los grandes bulevares se convierten en el escenario de una vida cosmopolita única en Marruecos.",
+        history_p3: "Tras la independencia en 1956, Tánger recupera su lugar en el reino conservando la memoria de aquella época. Las fotografías de este sitio son ventanas abiertas a ese pasado: preservan los rostros, las calles y los lugares de una ciudad en constante transformación.",
+        history_t1: "Tánger se convierte en zona internacional.",
+        history_t2: "Años cosmopolitas: escritores, artistas y músicos se cruzan en la ciudad.",
+        history_t3: "Independencia de Marruecos; Tánger se reintegra en el reino.",
+        history_t4: "El patrimonio fotográfico sigue contando la memoria de la ciudad.",
+        history_today: "Hoy",
         section_label: "Colección",
         section_title: "La Galería <em>Completa</em>",
         before_label: "Antes",
@@ -1233,6 +1398,18 @@ const i18n = {
         nav_gallery: "معرض",
         nav_music: "موسيقى",
         nav_share: "مشاركة",
+        nav_history: "التاريخ",
+        history_label: "ذاكرة",
+        history_title: "تاريخ <em>طنجة</em>",
+        history_intro: "ما وراء الصور، تحكي مدينة المضيق قروناً من اللقاءات بين أوروبا وإفريقيا.",
+        history_p1: "تأسست مدينة تينجيس القديمة على ضفاف مضيق جبل طارق، وكانت على التوالي فينيقية وقرطاجية ورومانية ثم عربية. وقد جعلها موقعها الاستراتيجي بين قارتين وبحرين ملتقى للتجارة واللغات والثقافات منذ وقت مبكر.",
+        history_p2: "في عام 1923، أصبحت طنجة منطقة دولية تديرها عدة قوى. وعلى مدى أكثر من ثلاثة عقود، استقطبت المدينة الكتاب والموسيقيين والرسامين والمسافرين. وأصبحت مقاهي المدينة القديمة والميناء والشوارع الكبرى مسرحاً لحياة عالمية فريدة في المغرب.",
+        history_p3: "بعد الاستقلال عام 1956، استعادت طنجة مكانتها داخل المملكة مع الحفاظ على ذاكرة تلك الحقبة. الصور الفوتوغرافية في هذا الموقع نوافذ مفتوحة على ذلك الماضي: تحفظ الوجوه والأزقة والأماكن لمدينة في تحول دائم.",
+        history_t1: "طنجة تصبح منطقة دولية.",
+        history_t2: "سنوات عالمية: كتاب وفنانون وموسيقيون يتقاطرون على المدينة.",
+        history_t3: "استقلال المغرب؛ طنجة تعود إلى المملكة.",
+        history_t4: "التراث الفوتوغرافي يواصل سرد ذاكرة المدينة.",
+        history_today: "اليوم",
         section_label: "مجموعة",
         section_title: "المعرض <em>الكامل</em>",
         before_label: "قبل",
