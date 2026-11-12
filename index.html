@@ -284,6 +284,14 @@
             color: var(--gold);
         }
 
+        .lang-flag {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            font-style: normal;
+            line-height: 1;
+            margin-inline-end: 0.3em;
+            vertical-align: -0.05em;
+        }
+
         @media (max-width: 768px) {
             nav {
                 padding: 0.8rem 1rem;
@@ -864,18 +872,6 @@
             background: rgba(201,168,76,0.05);
         }
 
-        .gallery-item {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-
-        .gallery-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         .mode-toggle {
             position: absolute;
             top: 0.8rem;
@@ -1031,9 +1027,6 @@
         :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
         button:focus-visible,a:focus-visible,[tabindex]:focus-visible{box-shadow:0 0 0 4px rgba(201,168,76,.28)}
 
-        /* Performance: defer heavy gallery blocks */
-        .gallery-item{content-visibility:auto;contain-intrinsic-size:auto 340px}
-
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce){
             html{scroll-behavior:auto!important}
@@ -1103,10 +1096,10 @@
         <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
     </ul>
     <div class="lang-switcher" role="group" aria-label="Langue / Language">
-        <button class="lang-btn active" data-lang="fr" aria-pressed="true">FR</button>
-        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
-        <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
-        <button class="lang-btn" data-lang="ar" aria-pressed="false">AR</button>
+        <button class="lang-btn active" data-lang="fr" aria-pressed="true"><span class="lang-flag" aria-hidden="true">🇫🇷</span>FR</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇬🇧</span>EN</button>
+        <button class="lang-btn" data-lang="es" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇪🇸</span>ES</button>
+        <button class="lang-btn" data-lang="ar" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇲🇦</span>AR</button>
     </div>
 </nav>
 
@@ -1626,7 +1619,6 @@ function resetPhotos() {
     try { localStorage.removeItem('tanger_photos'); } catch(e) {}
     photos = JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
     renderGallery();
-    document.querySelectorAll('.gallery-item').forEach(el => el.classList.add('visible'));
 }
 let photos = loadPhotos();
 
@@ -1760,25 +1752,7 @@ function renderGallery() {
         test.src = real;
     });
 
-    // Observe new items for fade-in (synchronous fallback if IO unavailable)
-    document.querySelectorAll('.gallery-item').forEach(el => {
-        if (observer) observer.observe(el);
-        else el.classList.add('visible');
-    });
 }
-
-
-// ── INTERSECTION OBSERVER ──
-const observer = ('IntersectionObserver' in window)
-    ? new IntersectionObserver((entries) => {
-        entries.forEach((e, idx) => {
-            if (e.isIntersecting) {
-                setTimeout(() => e.target.classList.add('visible'), idx * 60);
-                observer.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.1 })
-    : null;
 
 
 renderGallery();
