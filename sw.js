@@ -47,14 +47,7 @@ self.addEventListener('fetch', (event) => {
   if (url.origin === self.location.origin) {
     event.respondWith((async () => {
       const cached = await caches.match(request);
-      if (cached) {
-        fetch(request).then((response) => {
-          if (response && response.ok) {
-            caches.open(CACHE).then((cache) => cache.put(request, response.clone())).catch(() => {});
-          }
-        }).catch(() => {});
-        return cached;
-      }
+      if (cached) return cached;
       try {
         const response = await fetch(request);
         if (response && response.ok) {
