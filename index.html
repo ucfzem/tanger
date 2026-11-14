@@ -2132,5 +2132,12 @@ document.addEventListener('keydown', function (e) {
     }
 }, { passive: false });
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+    }, { once: true });
+}
+</script>
 </body>
 </html>
